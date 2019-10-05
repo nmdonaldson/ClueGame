@@ -21,6 +21,7 @@ class IntBoardTests {
 	public void beforeAll() {
 		board = new IntBoard();
 	}
+	
 
 	// Adjacency list tests
 	@Test
@@ -61,7 +62,7 @@ class IntBoardTests {
 	}
 	
 	@Test
-	public void test2ndColMiddle() {
+	public void testAdj2ndColMiddle() {
 		BoardCell tile = board.getCell(1, 1);
 		Set<BoardCell> testList = board.getAdjList(tile);
 		assertTrue(testList.contains(board.getCell(1, 0)));
@@ -72,7 +73,7 @@ class IntBoardTests {
 	}
 	
 	@Test
-	public void testPenultimateColMiddle() {
+	public void testAdjPenultimateColMiddle() {
 		BoardCell tile = board.getCell(2, 2);
 		Set<BoardCell> testList = board.getAdjList(tile);
 		assertTrue(testList.contains(board.getCell(1, 2)));
