@@ -16,7 +16,6 @@ public class IntBoard {
 	private BoardCell[][] grid;
 	private HashMap<BoardCell, Set<BoardCell>> adjStore;
 	private Set<BoardCell> targets;
-	private Set<BoardCell> visited = new HashSet<BoardCell>();
 	
 	// Constructor
 	public IntBoard() {
