@@ -52,29 +52,29 @@ public class Board {
 	}
 	
 	// Calculates which board spaces make valid targets
-	public void calcTargets(BoardCell startCell, int pathLength) {
+	public void calcTargets(int row, int column, int pathLength) {
 		int col = 0;
 		// Calculates outer edge of the range and adds that to the targets
 		while (pathLength > 0) {
-			col = startCell.getColumn() - pathLength;
-			for (int i = startCell.getRow(); i < startCell.getRow() + pathLength; i++) {
+			col = grid[row][column].getColumn() - pathLength;
+			for (int i = grid[row][column].getRow(); i < grid[row][column].getRow() + pathLength; i++) {
 				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
 				col++;
 				
 			}
-			col = startCell.getColumn();
-			for (int i = startCell.getRow() + pathLength; i > startCell.getRow(); i--) {
+			col = grid[row][column].getColumn();
+			for (int i = grid[row][column].getRow() + pathLength; i > grid[row][column].getRow(); i--) {
 				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
 				col++;
 				
 			}
-			col = startCell.getColumn() + pathLength;
-			for (int i = startCell.getRow(); i > startCell.getRow() - pathLength; i--) {
+			col = grid[row][column].getColumn() + pathLength;
+			for (int i = grid[row][column].getRow(); i > grid[row][column].getRow() - pathLength; i--) {
 				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
 				col--;
 			}
-			col = startCell.getColumn();
-			for (int i = startCell.getRow() - pathLength; i < startCell.getRow(); i++) {
+			col = grid[row][column].getColumn();
+			for (int i = grid[row][column].getRow() - pathLength; i < grid[row][column].getRow(); i++) {
 				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
 				col--;
 			}
@@ -215,8 +215,8 @@ public class Board {
 	}
 
 	// Returns adjacency list for one BoardCell
-	public Set<BoardCell> getAdjList(BoardCell cell) {
-		if (adjStore.containsKey(cell)) return adjStore.get(cell);
+	public Set<BoardCell> getAdjList(int row, int col) {
+		if (adjStore.containsKey(grid[row][col])) return adjStore.get(grid[row][col]);
 		else return null;
 	}
 
