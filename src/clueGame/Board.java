@@ -51,38 +51,40 @@ public class Board {
 		}
 	}
 	
-	// Calculates which board spaces make valid targets
+	// Calculates which board spaces make valid targets using recursive function
 	public void calcTargets(int row, int column, int pathLength) {
-		int col = 0;
-		// Calculates outer edge of the range and adds that to the targets
-		while (pathLength > 0) {
-			col = grid[row][column].getColumn() - pathLength;
-			for (int i = grid[row][column].getRow(); i < grid[row][column].getRow() + pathLength; i++) {
-				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
-				col++;
-				
+		Set<BoardCell> visited = new HashSet<BoardCell>();
+		BoardCell current = grid[row][column];
+		int pathTraverse = pathLength;
+		pathGen(pathLength, pathTraverse, grid[row][column], visited, current);
+	}
+	
+	// Recursively moves through each possible path available to the player
+	void pathGen(int pathLength, int pathTraverse, BoardCell start, 
+			Set<BoardCell> visited, BoardCell current) {
+		visited.add(current);
+		
+		// Base case, reached at the end of each path. Adds the cell at the end of the path
+		// to the targets set and resets everything else 
+		if (pathTraverse == 0) {
+			pathTraverse = pathLength;
+			if (current != start) targets.add(current);
+			current = start;
+			visited.clear();
+		}
+		
+		// Recursive case; when there are still unvisited paths, visit them
+		else {
+			// Move to all unvisited adjacent locations
+			for (BoardCell adjCell: adjStore.get(current)) {
+				if (!visited.contains(adjCell)) {
+					pathGen(pathLength, pathTraverse - 1, start, visited, current);
+				}
 			}
-			col = grid[row][column].getColumn();
-			for (int i = grid[row][column].getRow() + pathLength; i > grid[row][column].getRow(); i--) {
-				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
-				col++;
-				
-			}
-			col = grid[row][column].getColumn() + pathLength;
-			for (int i = grid[row][column].getRow(); i > grid[row][column].getRow() - pathLength; i--) {
-				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
-				col--;
-			}
-			col = grid[row][column].getColumn();
-			for (int i = grid[row][column].getRow() - pathLength; i < grid[row][column].getRow(); i++) {
-				if (i >= 0 && i < numRows && col >= 0 && col < numCols) targets.add(grid[i][col]);
-				col--;
-			}
-			pathLength -= 2;
 		}
 	}
 
-	// Loads the board information from the input files
+	// Loads the board information from the input files and the adjacency information
 	public void initialize() {
 		try {
 			loadRoomConfig();

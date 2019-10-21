@@ -49,32 +49,31 @@ public class IntBoard {
 	
 	// Calculates which board spaces make valid targets
 	public void calcTargets(BoardCell startCell, int pathLength) {
-		int col = 0;
-		// Calculates outer edge of the range and adds that to the targets
-		while (pathLength > 0) {
-			col = startCell.getColumn() - pathLength;
-			for (int i = startCell.getRow(); i < startCell.getRow() + pathLength; i++) {
-				if (i >= 0 && i < ROWS && col >= 0 && col < COLS) targets.add(grid[i][col]);
-				col++;
+		Set<BoardCell> visited = new HashSet<BoardCell>();
+		BoardCell currentCell = grid[startCell.getRow()][startCell.getColumn()];
+		int pathTraverse = pathLength;
+		pathGen(pathLength, pathTraverse, startCell, visited, currentCell);
+	}
+	
+	void pathGen(int pathLength, int pathTraverse, BoardCell startCell, Set<BoardCell> visited, BoardCell current) {
+		visited.add(current);
+		
+		// Base case, when the end of the path has been reached
+		if (pathTraverse == 0) {
+			pathTraverse = pathLength;
+			if (current != startCell) targets.add(current);
+			current = startCell;
+			visited.clear();
+		}
+		// Recursive case, when there is still places left to go
+		else {
+			// Move to all adjacent locations
+			for (BoardCell adjCell: adjStore.get(current)) {
+				if (!visited.contains(adjCell)) {
+					pathGen(pathLength, pathTraverse - 1, startCell, visited, adjCell);
+				}
 				
 			}
-			col = startCell.getColumn();
-			for (int i = startCell.getRow() + pathLength; i > startCell.getRow(); i--) {
-				if (i >= 0 && i < ROWS && col >= 0 && col < COLS) targets.add(grid[i][col]);
-				col++;
-				
-			}
-			col = startCell.getColumn() + pathLength;
-			for (int i = startCell.getRow(); i > startCell.getRow() - pathLength; i--) {
-				if (i >= 0 && i < ROWS && col >= 0 && col < COLS) targets.add(grid[i][col]);
-				col--;
-			}
-			col = startCell.getColumn();
-			for (int i = startCell.getRow() - pathLength; i < startCell.getRow(); i++) {
-				if (i >= 0 && i < ROWS && col >= 0 && col < COLS) targets.add(grid[i][col]);
-				col--;
-			}
-			pathLength -= 2;
 		}
 	}
 	
@@ -95,5 +94,14 @@ public class IntBoard {
 			return grid[row][column];
 		}
 		else return null;
+	}
+	
+	public static void main(String args[]) {
+		IntBoard smelly = new IntBoard();
+		smelly.calcTargets(smelly.getCell(0, 0), 4);
+		Set<BoardCell> poop = smelly.getTargets();
+		for (BoardCell pee: poop) {
+			System.out.println(pee.getRow() + "," + pee.getColumn());
+		}
 	}
 }

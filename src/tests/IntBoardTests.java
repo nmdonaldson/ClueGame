@@ -3,6 +3,7 @@ package tests;
 import static org.junit.jupiter.api.Assertions.*;
 import java.util.Set;
 import org.junit.Before;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import experiment.BoardCell;
 import experiment.IntBoard;
@@ -17,7 +18,7 @@ class IntBoardTests {
 	private IntBoard board;
 	
 	// Setup
-	@Before
+	@BeforeEach
 	public void beforeAll() {
 		board = new IntBoard();
 	}
