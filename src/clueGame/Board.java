@@ -42,8 +42,7 @@ public class Board {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Set<BoardCell> tempSet = new HashSet<BoardCell>();
-				char boardChar = grid[i][j].getInitial();
-				cellCheck(tempSet, boardChar, i, j);
+				cellCheck(tempSet, grid[i][j].getInitial(), i, j);
 			}
 		}
 	}
@@ -53,47 +52,20 @@ public class Board {
 			// Checks above, below, left and right if it is a valid space add it to our temp
 			// set of valid spaces
 			BoardCell current = grid[i][j];
-			if (i - 1 >= 0) {
-				// Checks UP
-				BoardCell up = grid[i - 1][j];
-				if (up.getInitial() == 'W' || (up.isDoorway() && up.getDoorDirection() == DoorDirection.DOWN)) {
-					tempSet.add(up);
-				}
-			}
-			if (i + 1 < numRows) {
-				// Checks DOWN
-				BoardCell down = grid[i + 1][j];
-				if (down.getInitial() == 'W'
-						|| (down.isDoorway() && down.getDoorDirection() == DoorDirection.UP)) {
-					tempSet.add(down);
-				}
-			}
-			if (j - 1 >= 0) {
-				// Checks LEFT
-				BoardCell left = grid[i][j - 1];
-				if (left.getInitial() == 'W'
-						|| (left.isDoorway() && left.getDoorDirection() == DoorDirection.RIGHT)) {
-					tempSet.add(left);
-				}
-			}
-			if (j + 1 < numCols) {
-				// Checks RIGHT
-				BoardCell right = grid[i][j + 1];
-				if (right.getInitial() == 'W'
-						|| (right.isDoorway() && right.getDoorDirection() == DoorDirection.LEFT)) {
-					tempSet.add(right);
-				}
-			}
+			upAdd(tempSet, i, j);
+			downAdd(tempSet, i, j);
+			leftAdd(tempSet, i, j);
+			rightAdd(tempSet, i, j);
 			// update the valid spaces list from our temp set
 			adjStore.put(current, tempSet);
 		} 
 		else {
 			BoardCell current2 = grid[i][j];
-			// if it is a room the temp set should be null
+			// if it is a room the temp set should contain nothing
 			if (current2.isRoom()) {
 				adjStore.put(current2, tempSet);
 			}
-			if (current2.isDoorway()) {
+			else if (current2.isDoorway()) {
 				DoorDirection my_door = current2.getDoorDirection();
 				// if the space is a doorway then add the corresponding exit to the set
 				switch (my_door) {
@@ -122,6 +94,53 @@ public class Board {
 					break;
 				}
 				adjStore.put(current2, tempSet);
+			}
+		}
+	}
+	
+	// Adds the cell above the current cell
+	public void upAdd(Set<BoardCell> tempSet, int i, int j) {
+		if (i - 1 >= 0) {
+			// Checks UP
+			BoardCell up = grid[i - 1][j];
+			if (up.getInitial() == 'W' || (up.isDoorway() && up.getDoorDirection() == DoorDirection.DOWN)) {
+				tempSet.add(up);
+			}
+		}
+	}
+	
+	// Adds the cell below the current cell
+	public void downAdd(Set<BoardCell> tempSet, int i, int j) {
+		if (i + 1 < numRows) {
+			// Checks DOWN
+			BoardCell down = grid[i + 1][j];
+			if (down.getInitial() == 'W'
+					|| (down.isDoorway() && down.getDoorDirection() == DoorDirection.UP)) {
+				tempSet.add(down);
+			}
+		}
+	}
+	
+	// Adds the cell to the left of the current cell
+	public void leftAdd(Set<BoardCell> tempSet, int i, int j) {
+		if (j - 1 >= 0) {
+			// Checks LEFT
+			BoardCell left = grid[i][j - 1];
+			if (left.getInitial() == 'W'
+					|| (left.isDoorway() && left.getDoorDirection() == DoorDirection.RIGHT)) {
+				tempSet.add(left);
+			}
+		}
+	}
+	
+	// Adds the cell to the right of the current cell
+	public void rightAdd(Set<BoardCell> tempSet, int i, int j) {
+		if (j + 1 < numCols) {
+			// Checks RIGHT
+			BoardCell right = grid[i][j + 1];
+			if (right.getInitial() == 'W'
+					|| (right.isDoorway() && right.getDoorDirection() == DoorDirection.LEFT)) {
+				tempSet.add(right);
 			}
 		}
 	}
