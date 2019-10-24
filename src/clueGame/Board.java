@@ -91,24 +91,30 @@ public class Board {
 					if (current2.isDoorway()) {
 						DoorDirection my_door = current2.getDoorDirection();
 						// if the space is a doorway then add the corresponding exit to the set
-						if (my_door == DoorDirection.UP) {
+						switch(my_door) {
+						case UP:
 							// adds UP
 							BoardCell up = grid[i - 1][j];
 							tempSet.add(up);
-						} else if (my_door == DoorDirection.DOWN) {
+							break;
+						case DOWN:
 							// adds DOWN
 							BoardCell down = grid[i + 1][j];
 							tempSet.add(down);
-						} else if (my_door == DoorDirection.LEFT) {
+							break;
+						case LEFT:
 							// adds LEFT
 							BoardCell left = grid[i][j - 1];
 							tempSet.add(left);
-						} else if (my_door == DoorDirection.RIGHT) {
+							break;
+						case RIGHT:							
 							// adds RIGHT
 							BoardCell right = grid[i][j + 1];
 							tempSet.add(right);
-						} else {
+							break;
+						default:
 							System.out.println("error in door");
+							break;
 						}
 						adjStore.put(current2, tempSet);
 					}
