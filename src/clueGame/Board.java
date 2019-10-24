@@ -91,7 +91,7 @@ public class Board {
 					if (current2.isDoorway()) {
 						DoorDirection my_door = current2.getDoorDirection();
 						// if the space is a doorway then add the corresponding exit to the set
-						switch(my_door) {
+						switch (my_door) {
 						case UP:
 							// adds UP
 							BoardCell up = grid[i - 1][j];
@@ -107,7 +107,7 @@ public class Board {
 							BoardCell left = grid[i][j - 1];
 							tempSet.add(left);
 							break;
-						case RIGHT:							
+						case RIGHT:
 							// adds RIGHT
 							BoardCell right = grid[i][j + 1];
 							tempSet.add(right);
@@ -263,22 +263,13 @@ public class Board {
 
 	// Instance method, makes sure there is only one instance of board
 	// Also provides a global access point to the board
-	public static Board getInstance() {
-		return instance;
-	}
-
+	public static Board getInstance() {return instance;}
 	// Returns list of targets
-	public Set<BoardCell> getTargets() {
-		return targets;
-	}
-	
-	public int getNumRows() {
-		return numRows;
-	}
-
-	public int getNumColumns() {
-		return numCols;
-	}
+	public Set<BoardCell> getTargets() {return targets;}
+	//Returns row number
+	public int getNumRows() {return numRows;}
+	//Returns col number
+	public int getNumColumns() {return numCols;}
 
 	// Returns adjacency list for one BoardCell
 	public Set<BoardCell> getAdjList(int row, int col) {
@@ -294,9 +285,7 @@ public class Board {
 		else return null;
 	}
 
-	public Map<Character, String> getLegend() {
-		return legend;
-	}
+	public Map<Character, String> getLegend() {return legend;}
 	
 	public void setConfigFiles(String string, String string2) {
 		this.boardConfigFile = string;
