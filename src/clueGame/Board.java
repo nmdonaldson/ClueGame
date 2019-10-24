@@ -38,147 +38,84 @@ public class Board {
 	
 	
 	// Calculates adjacency list for each grid cell and stores into map adjStore
-//		public void calcAdjacencies() {
-//			for (int i = 0; i < numRows; i++) {
-//				for (int j = 0; j < numCols; j++) {
-//					Set<BoardCell> tempSet = new HashSet<BoardCell>();
-//					char boardChar = grid[i][j].getInitial();
-//					
-//					switch(boardChar){
-//						case 'W':
-//							BoardCell current = grid[i][j];
-//							if (i - 1 >= 0) {
-//								BoardCell up = grid[i-1][j];
-//								if (up.getInitial() == 'W' || (up.isDoorway() && up.getDoorDirection() == DoorDirection.DOWN)) {
-//									tempSet.add(up);
-//								}
-//							}
-//							if (i + 1 < numRows) {
-//								BoardCell down = grid[i+1][j];
-//								if (down.getInitial() == 'W' || (down.isDoorway() && down.getDoorDirection() == DoorDirection.UP)) {
-//									tempSet.add(down);
-//								}
-//							}
-//							if (j - 1 >= 0) { 
-//								BoardCell left = grid[i][j-1];
-//								if (left.getInitial() == 'W' || (left.isDoorway() && left.getDoorDirection() == DoorDirection.RIGHT)) {
-//									tempSet.add(left);
-//								}
-//							}
-//							if (j + 1 < numCols) {
-//								BoardCell right = grid[i][j+1];
-//								if (right.getInitial() == 'W' || (right.isDoorway() && right.getDoorDirection() == DoorDirection.LEFT)) {
-//									tempSet.add(right);
-//								}
-//							} 
-//							adjStore.put(current, tempSet);
-//							break;
-//							
-//						default:
-//							current = grid[i][j];
-//							if(current.isRoom()) {
-//								adjStore.put(current, tempSet);
-//							}
-//							if(current.isDoorway()) {
-//								DoorDirection my_door = current.getDoorDirection();
-//								
-//								BoardCell up = grid[i-1][j];
-//								BoardCell down = grid[i+1][j];
-//								BoardCell left = grid[i][j-1];
-//								BoardCell right = grid[i][j+1];
-//
-//								if(my_door == DoorDirection.UP) {tempSet.add(up);}
-//								else if(my_door == DoorDirection.DOWN) {tempSet.add(down);}
-//								else if(my_door == DoorDirection.LEFT) {tempSet.add(left);}
-//								else if(my_door == DoorDirection.RIGHT) {tempSet.add(right);}
-//								else {System.out.println("error in door");}
-//								adjStore.put(current, tempSet);
-//							}
-//							break;
-//					}
-//				}
-//			}
-//		}
-	// Calculates adjacency list for each grid cell and stores into map adjStore
-		public void calcAdjacencies() {
-			//loop through grid
-			for (int i = 0; i < numRows; i++) {
-				for (int j = 0; j < numCols; j++) {
-					Set<BoardCell> tempSet = new HashSet<BoardCell>();
-					char boardChar = grid[i][j].getInitial();
-					
-					switch(boardChar){
-						case 'W':
-							//Checks above, below, left and right if it is a valid space add it to our temp set of valid spaces
-							BoardCell current = grid[i][j];
-							if (i - 1 >= 0) {
-								//Checks UP
-								BoardCell up = grid[i-1][j];
-								if (up.getInitial() == 'W' || (up.isDoorway() && up.getDoorDirection() == DoorDirection.DOWN)) {
-									tempSet.add(up);
-								}
-							}
-							if (i + 1 < numRows) {
-								//Checks DOWN
-								BoardCell down = grid[i+1][j];
-								if (down.getInitial() == 'W' || (down.isDoorway() && down.getDoorDirection() == DoorDirection.UP)) {
-									tempSet.add(down);
-								}
-							}
-							if (j - 1 >= 0) { 
-								//Checks LEFT
-								BoardCell left = grid[i][j-1];
-								if (left.getInitial() == 'W' || (left.isDoorway() && left.getDoorDirection() == DoorDirection.RIGHT)) {
-									tempSet.add(left);
-								}
-							}
-							if (j + 1 < numCols) {
-								//Checks RIGHT
-								BoardCell right = grid[i][j+1];
-								if (right.getInitial() == 'W' || (right.isDoorway() && right.getDoorDirection() == DoorDirection.LEFT)) {
-									tempSet.add(right);
-								}
-							} 
-							//update the valid spaces list from our temp set
-							adjStore.put(current, tempSet);
-							break;
-							
-						default:
-							BoardCell current2 = grid[i][j];
-							//if it is a room the temp set should be null 
-							if(current2.isRoom()) {
-								adjStore.put(current2, tempSet);
-							}
-							if(current2.isDoorway()) {
-								DoorDirection my_door = current2.getDoorDirection();
-								//if the space is a doorway then add the corresponding exit to the set
-								if(my_door == DoorDirection.UP) {
-									//adds UP
-									BoardCell up = grid[i-1][j];
-									tempSet.add(up);
-									}
-								else if(my_door == DoorDirection.DOWN) {
-									//adds DOWN
-									BoardCell down = grid[i+1][j];
-									tempSet.add(down);}
-								else if(my_door == DoorDirection.LEFT) {
-									//adds LEFT
-									BoardCell left = grid[i][j-1];
-									tempSet.add(left);
-									}
-								else if(my_door == DoorDirection.RIGHT) {
-									//adds RIGHT
-									BoardCell right = grid[i][j+1];
-									tempSet.add(right);
-									}
-								else {System.out.println("error in door");}
-								adjStore.put(current2, tempSet);
-							}
-							break;
+	public void calcAdjacencies() {
+		// loop through grid
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				Set<BoardCell> tempSet = new HashSet<BoardCell>();
+				char boardChar = grid[i][j].getInitial();
+
+				if (boardChar == 'W') {
+					// Checks above, below, left and right if it is a valid space add it to our temp
+					// set of valid spaces
+					BoardCell current = grid[i][j];
+					if (i - 1 >= 0) {
+						// Checks UP
+						BoardCell up = grid[i - 1][j];
+						if (up.getInitial() == 'W' || (up.isDoorway() && up.getDoorDirection() == DoorDirection.DOWN)) {
+							tempSet.add(up);
+						}
+					}
+					if (i + 1 < numRows) {
+						// Checks DOWN
+						BoardCell down = grid[i + 1][j];
+						if (down.getInitial() == 'W'
+								|| (down.isDoorway() && down.getDoorDirection() == DoorDirection.UP)) {
+							tempSet.add(down);
+						}
+					}
+					if (j - 1 >= 0) {
+						// Checks LEFT
+						BoardCell left = grid[i][j - 1];
+						if (left.getInitial() == 'W'
+								|| (left.isDoorway() && left.getDoorDirection() == DoorDirection.RIGHT)) {
+							tempSet.add(left);
+						}
+					}
+					if (j + 1 < numCols) {
+						// Checks RIGHT
+						BoardCell right = grid[i][j + 1];
+						if (right.getInitial() == 'W'
+								|| (right.isDoorway() && right.getDoorDirection() == DoorDirection.LEFT)) {
+							tempSet.add(right);
+						}
+					}
+					// update the valid spaces list from our temp set
+					adjStore.put(current, tempSet);
+				} else {
+					BoardCell current2 = grid[i][j];
+					// if it is a room the temp set should be null
+					if (current2.isRoom()) {
+						adjStore.put(current2, tempSet);
+					}
+					if (current2.isDoorway()) {
+						DoorDirection my_door = current2.getDoorDirection();
+						// if the space is a doorway then add the corresponding exit to the set
+						if (my_door == DoorDirection.UP) {
+							// adds UP
+							BoardCell up = grid[i - 1][j];
+							tempSet.add(up);
+						} else if (my_door == DoorDirection.DOWN) {
+							// adds DOWN
+							BoardCell down = grid[i + 1][j];
+							tempSet.add(down);
+						} else if (my_door == DoorDirection.LEFT) {
+							// adds LEFT
+							BoardCell left = grid[i][j - 1];
+							tempSet.add(left);
+						} else if (my_door == DoorDirection.RIGHT) {
+							// adds RIGHT
+							BoardCell right = grid[i][j + 1];
+							tempSet.add(right);
+						} else {
+							System.out.println("error in door");
+						}
+						adjStore.put(current2, tempSet);
 					}
 				}
 			}
 		}
+	}
 
 	// Calculates which board spaces make valid targets using recursive function
 	public void calcTargets(int row, int column, int pathLength) {
