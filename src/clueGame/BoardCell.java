@@ -24,17 +24,18 @@ public class BoardCell {
 	
 	// Checks if the initial of the cell is a walkway or not
 	public boolean isWalkway() {
-		return (initial == 'W');
+		return (this.initial == 'W');
 	}
 	
 	// Checks if the initial is a room initial or not
 	public boolean isRoom() {
-		return (initial != 'W' && initial != 'X' && !isDoorway());
+		return (!isWalkway() && !isDoorway());
 	}
 	
 	// Checks if cell is a doorway
 	public boolean isDoorway() {
-		return (door != ' ' && door == 'D' || door == 'U' || door == 'R' || door == 'L');
+		return (this.door == 'D' || this.door == 'U' 
+				|| this.door == 'R' || this.door == 'L');
 	}
 	
 	// Accessors/Mutators

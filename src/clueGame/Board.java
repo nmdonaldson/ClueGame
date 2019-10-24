@@ -33,7 +33,7 @@ public class Board {
 		this.targets = new HashSet<BoardCell>();
 		this.legend = new HashMap<Character, String>();
 		this.types = new HashSet<String>();
-		this.grid = new BoardCell[numRows][numCols];
+		this.grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
 	}
 	
 	
@@ -42,18 +42,57 @@ public class Board {
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				Set<BoardCell> tempSet = new HashSet<BoardCell>();
-				if (i - 1 >= 0) tempSet.add(grid[i - 1][j]);
-				if (i + 1 < numRows) tempSet.add(grid[i + 1][j]);
-				if (j - 1 >= 0) tempSet.add(grid[i][j - 1]);
-				if (j + 1 < numCols) tempSet.add(grid[i][j + 1]);
-				adjStore.put(grid[i][j], tempSet);
+				char boardChar = grid[i][j].getInitial();
+				switch(boardChar){
+					case 'W':
+						if (i - 1 >= 0) {
+							if (grid[i-1][j].getInitial() == 'W' || (grid[i-1][j].isDoorway() && grid[i-1][j].getDoorDirection() == DoorDirection.DOWN)) {
+								tempSet.add(grid[i - 1][j]);
+							}
+						}
+						if (i + 1 < numRows) {
+							if (grid[i+1][j].getInitial() == 'W' || (grid[i+1][j].isDoorway() && grid[i+1][j].getDoorDirection() == DoorDirection.UP)) {
+								tempSet.add(grid[i + 1][j]);
+							}
+						}
+						if (j - 1 >= 0) { 
+							if (grid[i][j-1].getInitial() == 'W' || (grid[i][j-1].isDoorway() && grid[i][j-1].getDoorDirection() == DoorDirection.RIGHT)) {
+								tempSet.add(grid[i][j - 1]);
+							}
+						}
+						if (j + 1 < numCols) {
+							if (grid[i][j+1].getInitial() == 'W' || (grid[i][j+1].isDoorway() && grid[i][j+1].getDoorDirection() == DoorDirection.LEFT)) {
+								tempSet.add(grid[i][j + 1]);
+							}
+						} 
+						adjStore.put(grid[i][j], tempSet);
+						break;
+						
+					default:
+						if(grid[i][j].isRoom()) {
+							adjStore.put(grid[i][j], tempSet);
+						}
+						if(grid[i][j].isDoorway()) {
+							DoorDirection my_door = grid[i][j].getDoorDirection();
+							if(my_door == DoorDirection.UP) {tempSet.add(grid[i-1][j]);}
+							else if(my_door == DoorDirection.DOWN) {tempSet.add(grid[i+1][j]);}
+							else if(my_door == DoorDirection.LEFT) {tempSet.add(grid[i][j-1]);}
+							else if(my_door == DoorDirection.RIGHT) {tempSet.add(grid[i][j+1]);}
+							else {System.out.println("error in door");}
+							adjStore.put(grid[i][j], tempSet);
+						}
+						break;
+				}
 			}
 		}
 	}
 	
 	// Calculates which board spaces make valid targets using recursive function
 	public void calcTargets(int row, int column, int pathLength) {
-		Set<BoardCell> visited = new HashSet<BoardCell>();
+		// Resets target list for subsequent calls
+		targets.clear();
+		//Set<BoardCell> visited = new HashSet<BoardCell>();
+		BoardCell visited = new BoardCell();
 		BoardCell current = grid[row][column];
 		int pathTraverse = pathLength;
 		pathGen(pathLength, pathTraverse, grid[row][column], visited, current);
@@ -61,27 +100,24 @@ public class Board {
 	
 	// Recursively moves through each possible path available to the player
 	void pathGen(int pathLength, int pathTraverse, BoardCell start, 
-			Set<BoardCell> visited, BoardCell current) {
-		visited.add(current);
-		
+			BoardCell visited, BoardCell current) {
 		// Base case, reached at the end of each path. Adds the cell at the end of the path
 		// to the targets set and resets everything else 
 		if (pathTraverse == 0) {
 			pathTraverse = pathLength;
-			if (current != start) targets.add(current);
+			if (current != visited && current != start) targets.add(current);
 			current = start;
-			visited.clear();
+			return;
 		}
 		
 		// Recursive case; when there are still unvisited paths, visit them
-		else {
-			// Move to all unvisited adjacent locations
-			for (BoardCell adjCell: adjStore.get(current)) {
-				if (!visited.contains(adjCell)) {
-					pathGen(pathLength, pathTraverse - 1, start, visited, current);
-				}
-			}
-		}
+		// Move to all unvisited adjacent locations
+		for (BoardCell adjCell: adjStore.get(current)) {
+			if (visited != adjCell && adjCell != start) {
+				pathGen(pathLength, pathTraverse - 1, start, current, adjCell);
+				if (adjCell.isDoorway()) targets.add(adjCell);
+		    }
+	    }
 	}
 
 	// Loads the board information from the input files and the adjacency information
@@ -138,9 +174,6 @@ public class Board {
 		this.numCols = arr.length;
 		this.numRows++;
 		
-		System.out.println(numCols);
-		System.out.println(numRows);
-		
 		while (dimFinder.hasNextLine()) {
 			tempRow = dimFinder.nextLine();
 			arr = tempRow.split(",");
@@ -179,7 +212,7 @@ public class Board {
 				if (!legend.containsKey(initial)) {
 					throw new BadConfigFormatException("Error: Board does not contain key " + initial);
 				}
-				//index correctl and add
+				//index correct l and add
 				BoardCell tempBoardCell = new BoardCell(count, i, initial, door);
 				setterGrid[count][i] = tempBoardCell;
 			}
