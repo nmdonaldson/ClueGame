@@ -305,11 +305,6 @@ public class Board {
 		scanner.close();
 	}
 	
-	
-	private int size(String[] arr) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
 
 	// Instance method, makes sure there is only one instance of board
 	// Also provides a global access point to the board
