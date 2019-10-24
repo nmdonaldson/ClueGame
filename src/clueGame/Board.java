@@ -48,10 +48,10 @@ public class Board {
 	}
 	
 	public void cellCheck(Set<BoardCell> tempSet, char boardChar, int i, int j) {
+		BoardCell current = grid[i][j];
 		if (boardChar == 'W') {
 			// Checks above, below, left and right if it is a valid space add it to our temp
 			// set of valid spaces
-			BoardCell current = grid[i][j];
 			upAdd(tempSet, i, j);
 			downAdd(tempSet, i, j);
 			leftAdd(tempSet, i, j);
@@ -60,13 +60,10 @@ public class Board {
 			adjStore.put(current, tempSet);
 		} 
 		else {
-			BoardCell current2 = grid[i][j];
 			// if it is a room the temp set should contain nothing
-			if (current2.isRoom()) {
-				adjStore.put(current2, tempSet);
-			}
-			else if (current2.isDoorway()) {
-				DoorDirection my_door = current2.getDoorDirection();
+			if (current.isRoom()) adjStore.put(current, tempSet);
+			else if (current.isDoorway()) {
+				DoorDirection my_door = current.getDoorDirection();
 				// if the space is a doorway then add the corresponding exit to the set
 				switch (my_door) {
 				case UP:
@@ -93,7 +90,7 @@ public class Board {
 					System.out.println("error in door");
 					break;
 				}
-				adjStore.put(current2, tempSet);
+				adjStore.put(current, tempSet);
 			}
 		}
 	}
