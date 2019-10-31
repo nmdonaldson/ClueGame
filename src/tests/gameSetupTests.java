@@ -33,25 +33,28 @@ public class gameSetupTests {
 		assertEquals(6, playerDeck.size());
 		// Tests first player card from the file
 		assertEquals(playerDeck.get(0).getCardName(), "Mrs. White");
+		assertEquals(playerDeck.get(0).type, Card.CardType.PERSON);
 		// Tests 4th player card from the file
 		assertEquals(playerDeck.get(3).getCardName(), "Colonel Mustard");
+		assertEquals(playerDeck.get(3).type, Card.CardType.PERSON);
 		// Tests last player card from the file
 		assertEquals(playerDeck.get(5).getCardName(), "Professor Plum");
+		assertEquals(playerDeck.get(3).type, Card.CardType.PERSON);
 	}
 	
 	@Test
 	// Tests that the colors for each player are appropriate as per the file's info
 	public void testPlayerColors() {
-//		ArrayList<Player> players = deck.getPlayers();
-//		
-//		// There should be 6 players
-//		assertEquals(6, players.size());
-//		// Tests first player's (Mrs. White) color
-//		assertEquals(players.get(0), Color.WHITE);
-//		// Tests 4th player's (Colonel Mustard) color
-//		assertEquals(players.get(3), Color.YELLOW);
-//		// Tests 6th player's (Professor Plum) color
-//		assertEquals(players.get(5), Color.MAGENTA);
+		ArrayList<Player> players = deck.getPlayers();
+		
+		// There should be 6 players
+		assertEquals(6, players.size());
+		// Tests first player's (Mrs. White) color
+		assertEquals(players.get(0).getColor(), Color.WHITE);
+		// Tests 4th player's (Colonel Mustard) color
+		assertEquals(players.get(3).getColor(), Color.YELLOW);
+		// Tests 6th player's (Professor Plum) color
+		assertEquals(players.get(5).getColor(), Color.MAGENTA);
 	}
 	
 	@Test
@@ -69,11 +72,27 @@ public class gameSetupTests {
 		assertEquals(players.get(4).getRow(), 6);
 		assertEquals(players.get(4).getColumn(), 17);
 	}
+	
 	@Test
+	// Tests that the weapon cards are loaded correctly
 	public void testLoadWeapons() {
+		ArrayList<Card> weaponCards = deck.getWeaponDeck();
 		
+		// There are supposed to be 6 weapon cards
+		assertEquals(weaponCards.size(), 6);
+		// The first card is a knife
+		assertEquals(weaponCards.get(0).getCardName(), "Knife");
+		assertEquals(weaponCards.get(0).type, Card.CardType.WEAPON);
+		// 3rd is a Pool Cue
+		assertEquals(weaponCards.get(2).getCardName(), "Pool Cue");
+		assertEquals(weaponCards.get(2).type, Card.CardType.WEAPON);
+		// Last is a Candlestick
+		assertEquals(weaponCards.get(5).getCardName(), "Candlestick");
+		assertEquals(weaponCards.get(5).type, Card.CardType.WEAPON);
 	}
+	
 	@Test
+	// Tests that the room cards are loaded correctly
 	public void testLoadRooms() {
 		
 	}

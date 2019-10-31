@@ -11,6 +11,7 @@ public class Player {
 	
 	public Player() {
 	}
+	
 	public Player(String name, String color, int row, int col) {
 		this.playerName = name;
 		this.color = convertColor(color);
@@ -40,6 +41,9 @@ public class Player {
 	// Accessors
 	public int getRow() {
 		return row;
+	}
+	public Color getColor() {
+		return color;
 	}
 	public int getColumn() {
 		return column;
