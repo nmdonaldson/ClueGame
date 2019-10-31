@@ -14,9 +14,11 @@ public class Player {
 	
 	public Player() {
 	}
-	public Player(String name, String color) {
+	public Player(String name, String color, int row, int col) {
 		this.playerName = name;
 		this.color = convertColor(color);
+		this.row = row;
+		this.column = col;
 	}
 	
 	public Card disproveSuggestion(Solution suggestion) {

@@ -24,13 +24,27 @@ public class gameSetupTests {
 	// Tests the ability for the deck object to load each player card correctly
 	public void testLoadPlayerCards() {
 		ArrayList<Card> playerDeck = deck.getPlayerDeck();
+		
 		// The deck of player cards should have 6 cards
 		assertEquals(6, playerDeck.size());
-		
-		// Tests first player card
-		assertTrue();
+		// Tests first player card from the file
+		assertEquals(playerDeck.get(0).getCardName(), "Mrs. White");
+		// Tests 3rd player card from the file
+		assertEquals(playerDeck.get(3).getCardName(), "Colonel Mustard");
+		// Tests last player card from the file
+		assertEquals(playerDeck.get(5).getCardName(), "Professor Plum");
 	}
 	
+	@Test
+	// Tests that the colors for each player are appropriate as per the file's info
+	public void testPlayerColors() {
+		
+	}
+	
+	
+	public void testPlayerLocations() {
+		
+	}
 	@Test
 	public void testLoadWeapons() {
 		
