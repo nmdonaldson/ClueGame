@@ -1,34 +1,42 @@
 package tests;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
+
+import java.util.ArrayList;
+
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import clueGame.ComputerPlayer;
-import clueGame.HumanPlayer;
-import clueGame.Player;
-import clueGame.Solution;
+import clueGame.Card;
+import clueGame.Decks;
 
 public class gameSetupTests {
+	private static Decks deck;
+	
 	@BeforeClass
-	public void setup() {
-		ComputerPlayer compPlayer = new ComputerPlayer();
-		HumanPlayer humanPlayer = new HumanPlayer();
-		Solution solution = new Solution();
-		
+	public static void setup() {
+		deck = Decks.getInstance();
+		deck.initialize();
 	}
 	
 	@Test
-	public void testLoadPlayers() {
+	// Tests the ability for the deck object to load each player card correctly
+	public void testLoadPlayerCards() {
+		ArrayList<Card> playerDeck = deck.getPlayerDeck();
+		// The deck of player cards should have 6 cards
+		assertEquals(6, playerDeck.size());
 		
-	}
-	
-	@Test
-	public void testLoad() {
-		
+		// Tests first player card
+		assertTrue();
 	}
 	
 	@Test
 	public void testLoadWeapons() {
+		
+	}
+	@Test
+	public void testLoadRooms() {
 		
 	}
 }

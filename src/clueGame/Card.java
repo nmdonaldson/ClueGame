@@ -7,4 +7,13 @@ public class Card {
 	public boolean equals() {
 		return false;
 	}
+
+	// Getters and setters
+	public String getCardName() {
+		return cardName;
+	}
+
+	public void setCardName(String cardName) {
+		this.cardName = cardName;
+	}
 }
