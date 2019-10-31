@@ -1,10 +1,7 @@
 package clueGame;
 
 import java.awt.Color;
-import java.io.File;
-import java.io.FileNotFoundException;
 import java.lang.reflect.Field;
-import java.util.Scanner;
 
 public class Player {
 	private String playerName;
@@ -38,5 +35,13 @@ public class Player {
 		}
 		
 		return color;
+	}
+	
+	// Accessors
+	public int getRow() {
+		return row;
+	}
+	public int getColumn() {
+		return column;
 	}
 }

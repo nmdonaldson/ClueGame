@@ -55,7 +55,6 @@ public class Board {
 			upAdd(tempSet, i, j);
 			downAdd(tempSet, i, j);
 			leftAdd(tempSet, i, j);
-			rightAdd(tempSet, i, j);
 			// update the valid spaces list from our temp set
 			adjStore.put(current, tempSet);
 		} 
