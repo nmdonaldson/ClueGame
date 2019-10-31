@@ -94,6 +94,21 @@ public class gameSetupTests {
 	@Test
 	// Tests that the room cards are loaded correctly
 	public void testLoadRooms() {
+		ArrayList<Card> roomCards = deck.getRoomDeck();
 		
+		// 9 rooms
+		assertEquals(roomCards.size(), 9);
+		// The first room is the Conservatory
+		assertEquals(roomCards.get(0), "Conservatory");
+		assertEquals(roomCards.get(0).type, Card.CardType.ROOM);
+		// 5th card, Foyer
+		assertEquals(roomCards.get(4), "Foyer");
+		assertEquals(roomCards.get(4).type, Card.CardType.ROOM);
+		// 6th card, Bathroom
+		assertEquals(roomCards.get(5), "Bathroom");
+		assertEquals(roomCards.get(5).type, Card.CardType.ROOM);
+		// Last card, Kitchen
+		assertEquals(roomCards.get(9), "Kitchen");
+		assertEquals(roomCards.get(9).type, Card.CardType.ROOM);
 	}
 }
