@@ -47,7 +47,8 @@ public class Decks {
 			playerCard.setCardName(arr[0]);
 			playerDeck.add(playerCard);
 			
-			Player playerObj = new Player(arr[0], arr[1], Integer.parseInt(arr[2]), Integer.parseInt(arr[3]));
+			Player playerObj = new Player(arr[0], arr[1], 
+					Integer.parseInt(arr[2]), Integer.parseInt(arr[3]));
 			players.add(playerObj);
 		}
 		
@@ -73,8 +74,25 @@ public class Decks {
 	}
 	
 	// Reads room information from the legend file
-	public void initializeRooms() {
+	public void initializeRooms() throws FileNotFoundException {
+		Scanner scanner;
+		scanner = new Scanner(new File("ClueRooms.txt"));
 		
+		// Adds the weapon cards to the weapon card deck
+		while (scanner.hasNextLine()) {
+			String[] rooms = scanner.nextLine().split(", ");
+			
+			// Only adds the rooms as cards if they are specified 
+			// as such in the file
+			if (rooms[2].equals("Card")) {
+				Card room = new Card();
+				room.setCardName(rooms[1]);
+				room.type = Card.CardType.ROOM;
+				roomDeck.add(room);
+			}
+		}
+		
+		scanner.close();
 	}
 	
 	// Shuffles a deck

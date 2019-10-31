@@ -99,16 +99,16 @@ public class gameSetupTests {
 		// 9 rooms
 		assertEquals(roomCards.size(), 9);
 		// The first room is the Conservatory
-		assertEquals(roomCards.get(0), "Conservatory");
+		assertEquals(roomCards.get(0).getCardName(), "Conservatory");
 		assertEquals(roomCards.get(0).type, Card.CardType.ROOM);
-		// 5th card, Foyer
-		assertEquals(roomCards.get(4), "Foyer");
+		// 4th card, Foyer
+		assertEquals(roomCards.get(3).getCardName(), "Foyer");
+		assertEquals(roomCards.get(3).type, Card.CardType.ROOM);
+		// 5th card, Bathroom
+		assertEquals(roomCards.get(4).getCardName(), "Bathroom");
 		assertEquals(roomCards.get(4).type, Card.CardType.ROOM);
-		// 6th card, Bathroom
-		assertEquals(roomCards.get(5), "Bathroom");
-		assertEquals(roomCards.get(5).type, Card.CardType.ROOM);
 		// Last card, Kitchen
-		assertEquals(roomCards.get(9), "Kitchen");
-		assertEquals(roomCards.get(9).type, Card.CardType.ROOM);
+		assertEquals(roomCards.get(8).getCardName(), "Kitchen");
+		assertEquals(roomCards.get(8).type, Card.CardType.ROOM);
 	}
 }
