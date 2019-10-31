@@ -2,6 +2,7 @@ package clueGame;
 
 public class Card {
 	private String cardName;
+	private boolean isDealt;
 	public CardType type;
 	public enum CardType { PERSON, WEAPON, ROOM };
 	

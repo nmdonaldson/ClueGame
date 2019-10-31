@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Scanner;
 import java.util.ArrayList;
+import java.util.*;
 
 
 public class Decks {
@@ -96,8 +97,42 @@ public class Decks {
 	}
 	
 	// Shuffles a deck
-	public void shuffle() {
+	public void shuffle(ArrayList<Card> deck) {
+		Collections.shuffle(deck);
+	}
+	
+	// Deals cards to each player
+	public void dealCards() {
+		int j = 0;
+		int i = playerDeck.size() - 1;
+		// Loops through the decks of cards deals them out to each player
+		while (!playerDeck.isEmpty()) {
+			if (j >= players.size()) j = 0;
+			players.get(j).addCard(playerDeck.get(i));
+			playerDeck.remove(i);
+			j++;
+			i--;
+		}
 		
+		j = 0;
+		i = weaponDeck.size() - 1;
+		while (!weaponDeck.isEmpty()) {
+			if (j >= players.size()) j = 0;
+			players.get(j).addCard(weaponDeck.get(i));
+			weaponDeck.remove(i);
+			j++;
+			i--;
+		}
+		
+		j = 0;
+		i = roomDeck.size() - 1;
+		while (!roomDeck.isEmpty()) {
+			if (j >= players.size()) j = 0;
+			players.get(j).addCard(roomDeck.get(i));
+			roomDeck.remove(i);
+			j++;
+			i--;
+		}
 	}
 	
 	// Accessors

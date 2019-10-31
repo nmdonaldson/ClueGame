@@ -1,7 +1,7 @@
 package tests;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.assertFalse;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -9,11 +9,9 @@ import java.util.ArrayList;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
-import clueGame.Board;
 import clueGame.Card;
 import clueGame.Decks;
 import clueGame.Player;
-import clueGame.BoardCell;
 
 public class gameSetupTests {
 	private static Decks deck;
@@ -95,7 +93,7 @@ public class gameSetupTests {
 	// Tests that the room cards are loaded correctly
 	public void testLoadRooms() {
 		ArrayList<Card> roomCards = deck.getRoomDeck();
-		
+		System.out.println("diarrhea");
 		// 9 rooms
 		assertEquals(roomCards.size(), 9);
 		// The first room is the Conservatory
@@ -110,5 +108,33 @@ public class gameSetupTests {
 		// Last card, Kitchen
 		assertEquals(roomCards.get(8).getCardName(), "Kitchen");
 		assertEquals(roomCards.get(8).type, Card.CardType.ROOM);
+	}
+	
+	@Test
+	// Tests that the cards are being dealt fairly 
+	public void AtestDealing() {
+		deck.dealCards();
+		System.out.println("poop");
+		ArrayList<Card> roomCards = deck.getRoomDeck();
+		ArrayList<Card> weaponCards = deck.getWeaponDeck();
+		ArrayList<Card> playerDeck = deck.getPlayerDeck();
+		ArrayList<Player> players = deck.getPlayers();
+		
+		// Checks that the cards in the deck have all been dealt
+		assertEquals(roomCards.size(), 0);
+		assertEquals(weaponCards.size(), 0);
+		assertEquals(playerDeck.size(), 0);
+		
+		// Checks that the players have roughly equal amount of cards
+		ArrayList<Card> cards = players.get(0).getCards();
+		ArrayList<Card> cards2 = players.get(3).getCards();
+		
+		// Using 2 as margin of error
+		assert(cards.size() - cards2.size() >= 2 || cards.size() - cards2.size() >= -2);
+		
+		// Tests to ensure cards only appear once
+		for (int i = 0; i < cards2.size(); i++) {
+			assertFalse(cards.contains(cards2.get(i)));
+		}
 	}
 }
