@@ -19,5 +19,4 @@ public class HumanPlayer extends Player {
 		super.setColumn(col);
 		super.setCards(new ArrayList<Card>());
 	}
-	
 }

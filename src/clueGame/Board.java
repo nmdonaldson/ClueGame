@@ -51,10 +51,22 @@ public class Board {
 	// Checks a suggestion for any matches between the players
 	public Card handleSuggestion(Solution suggestion) {
 		// Searches every player's deck for a card that can disprove the suggestion
-		for (Player player: my_players) {
-			Card answer = player.disproveSuggestion(suggestion);
+		for (int i = my_players.size() - 1; i >= 0; i--) {
+			// First player is the human player
+			if (i == 0) {
+				Card answer = my_players.get(i).disproveSuggestion(suggestion);
+				// If human is accuser and they can disprove, return null
+				if (my_players.get(i).getCards().contains(answer)) return null;
+				// If human
+				if (answer != null) return null;
+			}
+			Card answer = my_players.get(i).disproveSuggestion(suggestion);
+			// If the accusing player has the card, return null
+			if (my_players.get(i).getCards().contains(answer)) return null;
 			if (answer != null) return answer;
 		}
+		
+		
 		// If no such card exists, return null
 		return null;
 	}
@@ -315,7 +327,7 @@ public class Board {
 	
 	
 	public void createPlayers() {
-		my_deck.initialize();
+		//my_deck.initialize();
 		for(int i = 0; i < my_deck.getPlayers().size(); i++) {
 			String name;
 			Color color;
@@ -325,7 +337,10 @@ public class Board {
 			color = players.get(i).getColor();
 			row = players.get(i).getRow();
 			col = players.get(i).getColumn();
-			if(i == 0) {my_players.add(new HumanPlayer(name, color, row, col));}
+			if(i == 0) {
+				my_players.add(new HumanPlayer(name, color, row, col));
+				continue;
+			}
 			my_players.add(new ComputerPlayer(name, color, row, col));
 		}
 	}
@@ -365,6 +380,11 @@ public class Board {
 	}
 
 	public Map<Character, String> getLegend() {return legend;}
+	
+	// Gets the list of players
+	public ArrayList<Player> getMy_players() {
+		return my_players;
+	}
 
 	public void setConfigFiles(String string, String string2) {
 		this.boardConfigFile = string;

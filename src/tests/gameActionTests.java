@@ -4,6 +4,7 @@ import static org.junit.Assert.*;
 
 import java.awt.Color;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Map;
 
 import org.junit.BeforeClass;
@@ -12,6 +13,7 @@ import clueGame.Board;
 import clueGame.Card;
 import clueGame.ComputerPlayer;
 import clueGame.Decks;
+import clueGame.Player;
 import clueGame.Solution;
 
 /**
@@ -82,7 +84,6 @@ public class gameActionTests {
 		//checks a given accusation as long as the room is the conservatory
 		//System.out.println("Room is " + Board.getInstance().getSolution().room);
 		if(Board.getInstance().getSolution().room.equals("Conservatory")) {
-			System.out.println("testing");
 			String person = Board.getInstance().getSolution().person;
 			String weapon = Board.getInstance().getSolution().weapon;
 			assertTrue(compPlayer.makeAccusation(person, weapon));	
@@ -161,6 +162,19 @@ public class gameActionTests {
 		suggestion.weapon = "Polar Star";
 		// Players' answer to a suggestion
 		Card answer = board.handleSuggestion(suggestion);
+		ArrayList<Player> players = board.getMy_players();
+		
+		// Answer doesn't exist, so it returns nothing
 		assertEquals(null, answer);
+		
+		Card temp = new Card();
+		temp.setCardName("H");
+		players.get(1).addCard(temp);
+		// Suggestion becomes disprovable to the player (not human)
+		suggestion.person = players.get(1).getCards().get(0).getCardName();
+		// If accusing player is the only one that can disprove
+		assertEquals(null, board.handleSuggestion(suggestion));
+		
+		
 	}
 }

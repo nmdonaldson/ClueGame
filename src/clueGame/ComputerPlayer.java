@@ -72,7 +72,7 @@ public class ComputerPlayer extends Player {
 		return (real_person != person || real_weapon != wep || real_place.equals(place));
 	}
 	
-	// Makes a suggestion. Rules out possibilites
+	// Makes a suggestion. Rules out possibilities
 	public Solution createSuggestion(String person_1, String wep_1) {
 		Solution suggestion = new Solution();
 		int row = getRow();
