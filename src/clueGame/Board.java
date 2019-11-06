@@ -49,26 +49,30 @@ public class Board {
 	
 	
 	// Checks a suggestion for any matches between the players
-	public Card handleSuggestion(Solution suggestion) {
+	// Player param is the player making the accusation, suggestion is their suggestion
+	public Card handleSuggestion(Solution suggestion, Player player) {
+		boolean validAns = true;
+		Card answer = new Card();
 		// Searches every player's deck for a card that can disprove the suggestion
-		for (int i = my_players.size() - 1; i >= 0; i--) {
+		for (int i = my_players.size() - 1; i > -1; i--) {
 			// First player is the human player
 			if (i == 0) {
-				Card answer = my_players.get(i).disproveSuggestion(suggestion);
+				answer = my_players.get(i).disproveSuggestion(suggestion);
 				// If human is accuser and they can disprove, return null
-				if (my_players.get(i).getCards().contains(answer)) return null;
-				// If human
-				if (answer != null) return null;
+				if (player.getCards().contains(answer)) return null;
+				// Otherwise, return the human's answer
+				return answer;
 			}
-			Card answer = my_players.get(i).disproveSuggestion(suggestion);
+			answer = my_players.get(i).disproveSuggestion(suggestion);
 			// If the accusing player has the card, return null
-			if (my_players.get(i).getCards().contains(answer)) return null;
-			if (answer != null) return answer;
+			if (player.getCards().contains(answer)) validAns = false;
+			else if (answer != null) return answer;
 		}
 		
-		
-		// If no such card exists, return null
-		return null;
+		if (validAns) {
+			return answer;
+		}
+		else return null;
 	}
 	
 	// Calculates adjacency list for each grid cell and stores into map adjStore
@@ -389,5 +393,10 @@ public class Board {
 	public void setConfigFiles(String string, String string2) {
 		this.boardConfigFile = string;
 		this.roomConfigFile = string2;
+	}
+	
+
+	public void setMy_players(ArrayList<Player> my_players) {
+		this.my_players = my_players;
 	}
 }

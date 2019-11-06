@@ -160,9 +160,9 @@ public class gameActionTests {
 		suggestion.person = "Quote";
 		suggestion.room = "Egg Corridor";
 		suggestion.weapon = "Polar Star";
-		// Players' answer to a suggestion
-		Card answer = board.handleSuggestion(suggestion);
 		ArrayList<Player> players = board.getMy_players();
+		// Players' answer to a suggestion
+		Card answer = board.handleSuggestion(suggestion, players.get(0));
 		
 		// Answer doesn't exist, so it returns nothing
 		assertEquals(null, answer);
@@ -172,14 +172,46 @@ public class gameActionTests {
 		players.get(1).addCard(temp);
 		// Suggestion becomes disprovable to the player (not human)
 		suggestion.person = players.get(1).getCards().get(0).getCardName();
+		board.setMy_players(players);
 		// If accusing player is the only one that can disprove
-		assertEquals(null, board.handleSuggestion(suggestion));
+		assertEquals(null, board.handleSuggestion(suggestion, players.get(1)));
 		
-		// If accusing player is a human
-		temp.setCardName("P");
-		players.get(0).addCard(temp);
+		// If accusing player is a human, their answer is valid
+		//temp.setCardName("P");
+		Card temp1 = new Card();
+		temp1.setCardName("P");
+		players.get(2).addCard(temp1);
+		suggestion.person = players.get(2).getCards().get(0).getCardName();
+		board.setMy_players(players);
+		assertEquals("P", board.handleSuggestion(suggestion, players.get(0)).getCardName());
+		
+		// If accusing player is a human, but they're accusing, return null
+		//temp.setCardName("P");
+		Card temp2 = new Card();
+		temp1.setCardName("C");
+		players.get(0).addCard(temp2);
 		suggestion.person = players.get(0).getCards().get(0).getCardName();
+		board.setMy_players(players);
+		assertEquals(null, board.handleSuggestion(suggestion, players.get(0)));
 		
-		assertEquals(answer, board.handleSuggestion(suggestion));
+		// If two players can disprove, returns first one in list's answer
+//		temp.setCardName("Pickle");
+//		players.get(2).addCard(temp);
+//		temp.setCardName("Cucumber");
+//		players.get(3).addCard(temp);
+//		board.setMy_players(players);
+//		suggestion.person = players.get(2).getCards().get(0).getCardName();
+//		suggestion.weapon = players.get(3).getCards().get(0).getCardName();
+//		
+////		assertEquals(answer);
+//		
+//		// If human and other player can disprove, returns other player's answer
+//		temp.setCardName("P");
+//		players.get(2).addCard(temp);
+//		temp.setCardName("Cucumber");
+//		players.get(3).addCard(temp);
+//		board.setMy_players(players);
+//		suggestion.person = players.get(2).getCards().get(0).getCardName();
+//		suggestion.weapon = players.get(3).getCards().get(0).getCardName();
 	}
 }
