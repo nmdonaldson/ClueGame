@@ -195,23 +195,29 @@ public class gameActionTests {
 		assertEquals(null, board.handleSuggestion(suggestion, players.get(0)));
 		
 		// If two players can disprove, returns first one in list's answer
-//		temp.setCardName("Pickle");
-//		players.get(2).addCard(temp);
-//		temp.setCardName("Cucumber");
-//		players.get(3).addCard(temp);
-//		board.setMy_players(players);
-//		suggestion.person = players.get(2).getCards().get(0).getCardName();
-//		suggestion.weapon = players.get(3).getCards().get(0).getCardName();
-//		
-////		assertEquals(answer);
-//		
-//		// If human and other player can disprove, returns other player's answer
-//		temp.setCardName("P");
-//		players.get(2).addCard(temp);
-//		temp.setCardName("Cucumber");
-//		players.get(3).addCard(temp);
-//		board.setMy_players(players);
-//		suggestion.person = players.get(2).getCards().get(0).getCardName();
-//		suggestion.weapon = players.get(3).getCards().get(0).getCardName();
+		Card temp3 = new Card();
+		temp3.setCardName("Pickle");
+		players.get(2).addCard(temp3);
+		Card temp4 = new Card();
+		temp4.setCardName("Cucumber");
+		players.get(3).addCard(temp4);
+		board.setMy_players(players);
+		suggestion.person = players.get(2).getCards().get(1).getCardName();
+		suggestion.weapon = players.get(3).getCards().get(0).getCardName();
+		
+		assertEquals("Pickle", board.handleSuggestion(suggestion, players.get(1)).getCardName());
+		
+		// If human and other player can disprove, returns other player's answer
+		Card temp5 = new Card();
+		temp5.setCardName("Pepper");
+		players.get(0).addCard(temp5);
+		Card temp6 = new Card();
+		temp6.setCardName("Onion");
+		players.get(4).addCard(temp6);
+		board.setMy_players(players);
+		suggestion.person = players.get(0).getCards().get(1).getCardName();
+		suggestion.weapon = players.get(4).getCards().get(0).getCardName();
+		
+		assertEquals("Pepper", board.handleSuggestion(suggestion, players.get(2)).getCardName());
 	}
 }
