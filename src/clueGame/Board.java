@@ -1,6 +1,8 @@
 package clueGame;
 
 import java.util.Set;
+import java.awt.Color;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -24,6 +26,9 @@ public class Board {
 	private Set<String> types;
 	private String boardConfigFile;
 	private String roomConfigFile;
+	private ArrayList<Player> my_players;
+	private Solution my_solution;
+	private Decks my_deck;
 	private static Board instance = new Board();
 
 	// Constructor, private to ensure only one is created
@@ -34,8 +39,23 @@ public class Board {
 		this.legend = new HashMap<Character, String>();
 		this.types = new HashSet<String>();
 		this.grid = new BoardCell[MAX_BOARD_SIZE][MAX_BOARD_SIZE];
+		this.my_solution =  new Solution();
+		this.my_players = new ArrayList<Player>();
+		this.my_deck = Decks.getInstance();
 	}
 
+	public boolean checkAccusation(Solution accusation) {
+		if (accusation.equals(my_solution)) {
+			return true;
+		}
+		return false;
+		
+	}
+	
+	public void handleSuggestion(Solution suggestion) {
+		
+	}
+	
 	// Calculates adjacency list for each grid cell and stores into map adjStore
 	public void calcAdjacencies() {
 		// loop through grid
@@ -55,6 +75,7 @@ public class Board {
 			upAdd(tempSet, i, j);
 			downAdd(tempSet, i, j);
 			leftAdd(tempSet, i, j);
+			rightAdd(tempSet, i, j);
 			// update the valid spaces list from our temp set
 			adjStore.put(current, tempSet);
 		} 
@@ -154,8 +175,7 @@ public class Board {
 
 	// Recursively moves through each possible path available to the player
 	void pathGen(int pathLength, int pathTraverse, BoardCell start, BoardCell visited, BoardCell current) {
-		// Base case, reached at the end of each path. Adds the cell at the end of the
-		// path
+		// Base case, reached at the end of each path. Adds the cell at the end of the path
 		// to the targets set and resets everything else
 		if (pathTraverse == 0) {
 			pathTraverse = pathLength;
@@ -183,6 +203,8 @@ public class Board {
 			loadRoomConfig();
 			loadBoardConfig();
 			calcAdjacencies();
+			createSolution();
+			createPlayers();
 		} catch (FileNotFoundException | BadConfigFormatException e) {
 			System.out.println(e.getMessage());
 		}
@@ -276,7 +298,35 @@ public class Board {
 		grid = setterGrid;
 		scanner.close();
 	}
-
+	
+	//makes the solution to the game
+	public void createSolution() {
+		my_deck.initialize();
+		my_deck.shuffle(my_deck.getWeaponDeck());
+		my_deck.shuffle(my_deck.getPlayerDeck());
+		my_deck.shuffle(my_deck.getRoomDeck());
+		my_solution.weapon = my_deck.getWeaponDeck().get(0).getCardName();
+		my_solution.person = my_deck.getPlayerDeck().get(0).getCardName();
+		my_solution.room = my_deck.getRoomDeck().get(0).getCardName();
+	}	
+	
+	
+	public void createPlayers() {
+		my_deck.initialize();
+		for(int i = 0; i < my_deck.getPlayers().size(); i++) {
+			String name;
+			Color color;
+			int row, col;
+			ArrayList<Player> players = my_deck.getPlayers();
+			name = players.get(i).getName();
+			color = players.get(i).getColor();
+			row = players.get(i).getRow();
+			col = players.get(i).getColumn();
+			if(i == 0) {my_players.add(new HumanPlayer(name, color, row, col));}
+			my_players.add(new ComputerPlayer(name, color, row, col));
+		}
+	}
+	
 	// Instance method, makes sure there is only one instance of board
 	// Also provides a global access point to the board
 	public static Board getInstance() {return instance;}
@@ -288,6 +338,12 @@ public class Board {
 
 	// Returns col number
 	public int getNumColumns() {return numCols;}
+	
+	//returns Solution
+	public Solution getSolution() {return my_solution;}
+	
+	//returns the Deck
+	public Decks getDecks() {return my_deck;}
 
 	// Returns adjacency list for one BoardCell
 	public Set<BoardCell> getAdjList(int row, int col) {

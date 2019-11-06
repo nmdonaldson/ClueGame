@@ -6,6 +6,11 @@ import java.util.Scanner;
 import java.util.ArrayList;
 import java.util.*;
 
+/**
+ * 
+ * @author Nolan Donaldson, Chase Patterson
+ *
+ */
 
 public class Decks {
 	public ArrayList<Card> weaponDeck;
