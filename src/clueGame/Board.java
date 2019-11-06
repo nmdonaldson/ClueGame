@@ -49,8 +49,14 @@ public class Board {
 	
 	
 	// Checks a suggestion for any matches between the players
-	public void handleSuggestion(Solution suggestion) {
-		
+	public Card handleSuggestion(Solution suggestion) {
+		// Searches every player's deck for a card that can disprove the suggestion
+		for (Player player: my_players) {
+			Card answer = player.disproveSuggestion(suggestion);
+			if (answer != null) return answer;
+		}
+		// If no such card exists, return null
+		return null;
 	}
 	
 	// Calculates adjacency list for each grid cell and stores into map adjStore
