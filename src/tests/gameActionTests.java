@@ -153,7 +153,14 @@ public class gameActionTests {
 	}
 	
 	@Test
+	// Tests handling of a suggestion across all players
 	public void handleSuggestion() {
-		
+		Solution suggestion = new Solution();
+		suggestion.person = "Quote";
+		suggestion.room = "Egg Corridor";
+		suggestion.weapon = "Polar Star";
+		// Players' answer to a suggestion
+		Card answer = board.handleSuggestion(suggestion);
+		assertEquals(null, answer);
 	}
 }

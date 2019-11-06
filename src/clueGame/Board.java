@@ -44,14 +44,11 @@ public class Board {
 		this.my_deck = Decks.getInstance();
 	}
 
-	public boolean checkAccusation(Solution accusation) {
-		if (accusation.equals(my_solution)) {
-			return true;
-		}
-		return false;
-		
-	}
+	// Checks the accusation's accuracy
+	public boolean checkAccusation(Solution accusation) { return accusation.equals(my_solution);}
 	
+	
+	// Checks a suggestion for any matches between the players
 	public void handleSuggestion(Solution suggestion) {
 		
 	}
@@ -116,7 +113,7 @@ public class Board {
 	}
 	
 	// Adds the cell above the current cell
-	public void upAdd(Set<BoardCell> tempSet, int i, int j) {
+	private void upAdd(Set<BoardCell> tempSet, int i, int j) {
 		if (i - 1 >= 0) {
 			// Checks UP
 			BoardCell up = grid[i - 1][j];
@@ -127,7 +124,7 @@ public class Board {
 	}
 	
 	// Adds the cell below the current cell
-	public void downAdd(Set<BoardCell> tempSet, int i, int j) {
+	private void downAdd(Set<BoardCell> tempSet, int i, int j) {
 		if (i + 1 < numRows) {
 			// Checks DOWN
 			BoardCell down = grid[i + 1][j];
@@ -139,7 +136,7 @@ public class Board {
 	}
 	
 	// Adds the cell to the left of the current cell
-	public void leftAdd(Set<BoardCell> tempSet, int i, int j) {
+	private void leftAdd(Set<BoardCell> tempSet, int i, int j) {
 		if (j - 1 >= 0) {
 			// Checks LEFT
 			BoardCell left = grid[i][j - 1];
@@ -151,7 +148,7 @@ public class Board {
 	}
 	
 	// Adds the cell to the right of the current cell
-	public void rightAdd(Set<BoardCell> tempSet, int i, int j) {
+	private void rightAdd(Set<BoardCell> tempSet, int i, int j) {
 		if (j + 1 < numCols) {
 			// Checks RIGHT
 			BoardCell right = grid[i][j + 1];
@@ -174,7 +171,7 @@ public class Board {
 	}
 
 	// Recursively moves through each possible path available to the player
-	void pathGen(int pathLength, int pathTraverse, BoardCell start, BoardCell visited, BoardCell current) {
+	private void pathGen(int pathLength, int pathTraverse, BoardCell start, BoardCell visited, BoardCell current) {
 		// Base case, reached at the end of each path. Adds the cell at the end of the path
 		// to the targets set and resets everything else
 		if (pathTraverse == 0) {
