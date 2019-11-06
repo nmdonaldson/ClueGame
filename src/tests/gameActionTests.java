@@ -175,6 +175,11 @@ public class gameActionTests {
 		// If accusing player is the only one that can disprove
 		assertEquals(null, board.handleSuggestion(suggestion));
 		
+		// If accusing player is a human
+		temp.setCardName("P");
+		players.get(0).addCard(temp);
+		suggestion.person = players.get(0).getCards().get(0).getCardName();
 		
+		assertEquals(answer, board.handleSuggestion(suggestion));
 	}
 }
