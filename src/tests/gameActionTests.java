@@ -2,11 +2,7 @@ package tests;
 
 import static org.junit.Assert.*;
 
-import java.awt.Color;
-import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Map;
-
 import org.junit.BeforeClass;
 import org.junit.Test;
 import clueGame.Board;
@@ -194,7 +190,7 @@ public class gameActionTests {
 		board.setMy_players(players);
 		assertEquals(null, board.handleSuggestion(suggestion, players.get(0)));
 		
-		// If two players can disprove, returns first one in list's answer
+		// If two players can disprove, returns next player's answer
 		Card temp3 = new Card();
 		temp3.setCardName("Pickle");
 		players.get(2).addCard(temp3);
@@ -205,7 +201,7 @@ public class gameActionTests {
 		suggestion.person = players.get(2).getCards().get(1).getCardName();
 		suggestion.weapon = players.get(3).getCards().get(0).getCardName();
 		
-		assertEquals("Pickle", board.handleSuggestion(suggestion, players.get(1)).getCardName());
+		assertEquals("Cucumber", board.handleSuggestion(suggestion, players.get(1)).getCardName());
 		
 		// If human and other player can disprove, returns other player's answer
 		Card temp5 = new Card();
@@ -218,6 +214,6 @@ public class gameActionTests {
 		suggestion.person = players.get(0).getCards().get(1).getCardName();
 		suggestion.weapon = players.get(4).getCards().get(0).getCardName();
 		
-		assertEquals("Pepper", board.handleSuggestion(suggestion, players.get(2)).getCardName());
+		assertEquals("Onion", board.handleSuggestion(suggestion, players.get(2)).getCardName());
 	}
 }
