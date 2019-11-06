@@ -18,9 +18,11 @@ public class Player {
 	private Color color;
 	private ArrayList<Card> cards;
 	
+	// Default constructor; doesn't do anything
 	public Player() {
 	}
 	
+	// Constructor
 	public Player(String name, String color, int row, int col) {
 		this.playerName = name;
 		this.color = convertColor(color);
@@ -29,18 +31,21 @@ public class Player {
 		this.cards = new ArrayList<Card>();
 	}
 
-	
+	// Checks if the suggestion being made can be disproved
 	public Card disproveSuggestion(Solution suggestion) {
 		ArrayList<Card> return_cards = new ArrayList<Card>();
 		Random rand = new Random();
+		// Searches the deck of the player for a matching card
 		for(int i = 0; i < cards.size(); i++) {
-			if(suggestion.person == cards.get(i).getCardName() || suggestion.room == cards.get(i).getCardName() || suggestion.weapon == cards.get(i).getCardName()) {
+			if(suggestion.person == cards.get(i).getCardName() || 
+					suggestion.room == cards.get(i).getCardName() || 
+					suggestion.weapon == cards.get(i).getCardName()) {
 				return_cards.add(cards.get(i));
 			}
 		}
+		// If more than one match exists, choose them at random
 		if(return_cards.size() == 0) {return null;}
-		return 	return_cards.get(rand.nextInt(return_cards.size()));
-
+		return return_cards.get(rand.nextInt(return_cards.size()));
 	}
 	
 	// Converts a string to a color object, from the canvas material

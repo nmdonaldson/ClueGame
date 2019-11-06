@@ -53,33 +53,37 @@ public class ComputerPlayer extends Player {
 		return null;
 	}
 	
+	// Makes an accusation. Is a game winning/losing move
 	public boolean makeAccusation(String person, String wep) {
 		int row = getRow();
 		int col = getColumn();
 		String place = "Error";
+		// Gets an instance of the board
 		if(Board.getInstance().getCellAt(row, col).isRoom()) {
 			char room = Board.getInstance().getCellAt(row, col).getInitial();
 			place = Board.getInstance().getLegend().get(room); 
 		}
+		// Checks the accusation being made vs. the solution
 		System.out.println("The suggestion made was " + person + " in the " + place + " with the " + wep);
 		String real_person = Board.getInstance().getSolution().person;
 		String real_place = Board.getInstance().getSolution().room;
 		String real_weapon = Board.getInstance().getSolution().weapon;
-		if(real_person != person || real_weapon != wep || real_place.equals(place) == false) {
-			return false;
-		}
-		return true;
+		// Returns true if the accusation == solution, false otherwise
+		return (real_person != person || real_weapon != wep || real_place.equals(place));
 	}
 	
+	// Makes a suggestion. Rules out possibilites
 	public Solution createSuggestion(String person_1, String wep_1) {
 		Solution suggestion = new Solution();
 		int row = getRow();
 		int col = getColumn();
 		String place = "Error";
+		// Gets an instance of the board
 		if(Board.getInstance().getCellAt(row, col).isRoom()) {
 			char room = Board.getInstance().getCellAt(row, col).getInitial();
 			place = Board.getInstance().getLegend().get(room); 
 		}
+		// Suggestion takes place in the room the player is currently in
 		suggestion.person = person_1;
 		suggestion.weapon = wep_1;
 		suggestion.room = place;

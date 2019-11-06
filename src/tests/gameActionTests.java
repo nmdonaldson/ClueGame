@@ -80,7 +80,7 @@ public class gameActionTests {
 	@Test
 	public void testAccusation() {
 		//checks a given accusation as long as the room is the conservatory
-		System.out.println("Room is " + Board.getInstance().getSolution().room);
+		//System.out.println("Room is " + Board.getInstance().getSolution().room);
 		if(Board.getInstance().getSolution().room.equals("Conservatory")) {
 			System.out.println("testing");
 			String person = Board.getInstance().getSolution().person;
@@ -113,18 +113,47 @@ public class gameActionTests {
 	}
 	
 	@Test
+	// Checks suggestion disproving
 	public void disproveSuggestion() {
-		//disproving the solution here still needs work but has most of the aspects
+		// Creates new solution
 		Solution suggestion = new Solution();
 		suggestion.person = "Mr. Plum";
 		suggestion.weapon = "Pipe";
 		suggestion.room = "Conservatory";
+		
+
+		Card card1 = new Card();
+		card1.setCardName("Armory");
+		compPlayer.addCard(card1);
 		Card temp = compPlayer.disproveSuggestion(suggestion);
-		assertTrue(true);
+		
+		// Tests that there are no matching cards
+		assertEquals(null, temp);
+		
+		Card card = new Card();
+		card.setCardName("Mr. Plum");
+		compPlayer.addCard(card);
+		temp = compPlayer.disproveSuggestion(suggestion);
+		// Tests that the card chosen matches
+		assertTrue(temp.getCardName() == "Mr. Plum" || temp.getCardName() == "Pipe" 
+				|| temp.getCardName() == "Conservatory");
+		
+		Card card2 = new Card();
+		card2.setCardName("Pipe");
+		compPlayer.addCard(card2);
+		temp = compPlayer.disproveSuggestion(suggestion);
+		
+		// Randomly chooses between the valid cards
+		if (temp.getCardName() == "Mr. Plum") {
+			assertTrue(true);
+		}
+		else {
+			assertTrue(temp.getCardName() == "Pipe");
+		}
 	}
+	
 	@Test
 	public void handleSuggestion() {
-		//need to implement
-		assertTrue(true);
+		
 	}
 }
