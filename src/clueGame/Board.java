@@ -1,7 +1,11 @@
 package clueGame;
 
 import java.util.Set;
+
+import javax.swing.JPanel;
+
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,7 +19,7 @@ import java.io.*;
  *
  */
 
-public class Board {
+public class Board extends JPanel {
 	private int numRows;
 	private int numCols;
 	public final static int MAX_BOARD_SIZE = 50;
@@ -42,6 +46,17 @@ public class Board {
 		this.my_solution =  new Solution();
 		this.my_players = new ArrayList<Player>();
 		this.my_deck = Decks.getInstance();
+	}
+	
+	// Draws the board
+	public void paintComponent(Graphics g) {
+		super.paintComponent(g);
+		for (int i = 0; i < numRows; i++) {
+			for (int j = 0; j < numCols; j++) {
+				grid[i][j].draw(g, legend);
+				super.repaint();
+			}
+		}
 	}
 
 	// Checks the accusation's accuracy

@@ -1,7 +1,11 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Graphics;
 import java.util.Random;
+
+import javax.swing.JPanel;
+
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 
@@ -11,7 +15,7 @@ import java.util.ArrayList;
  *
  */
 
-public class Player {
+public class Player extends JPanel {
 	private String playerName;
 	private int row;
 	private int column;
@@ -20,6 +24,11 @@ public class Player {
 	
 	// Default constructor; doesn't do anything
 	public Player() {
+	}
+	
+	// Draws the player's position
+	public void draw(Graphics g) {
+		
 	}
 	
 	// Constructor

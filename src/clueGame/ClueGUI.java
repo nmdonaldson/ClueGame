@@ -24,7 +24,6 @@ import java.util.Random;
 import experiment.GUI_Example;
 
 public class ClueGUI extends JPanel {
-	private JTextField name;
 
 	// Constructor. Adds each panel to the window 
 	public ClueGUI() {
@@ -46,9 +45,9 @@ public class ClueGUI extends JPanel {
 	
 	// Creates die roll panel
 	private JPanel rollDie(){
-		 JPanel panel = new JPanel();
+		JPanel panel = new JPanel();
 	 	// Created at row 1 column 2
-		panel.setLayout(new GridLayout(1,2));
+		panel.setLayout(new GridLayout(2,1));
 		JLabel nameLabel = new JLabel("Roll");
 		JTextField dieRoll = new JTextField();
 		dieRoll.setEditable(false);
@@ -62,7 +61,7 @@ public class ClueGUI extends JPanel {
 	private JPanel playerMove() {
 		// No layout, created using default flow
 		JButton nextPlayer = new JButton("Next player");
-		nextPlayer.setPreferredSize(new Dimension(255, 75));
+		nextPlayer.setPreferredSize(new Dimension(280, 75));
 		JPanel panel = new JPanel();
 		panel.add(nextPlayer);
 		return panel;
@@ -72,7 +71,7 @@ public class ClueGUI extends JPanel {
 	private JPanel makeAccusation() {
 		// No layout, So it's created with the default flow
 		JButton makeAccusation = new JButton("Make an accusation");
-		makeAccusation.setPreferredSize(new Dimension(255, 75));
+		makeAccusation.setPreferredSize(new Dimension(280, 75));
 		JPanel panel = new JPanel();
 		panel.add(makeAccusation);
 		return panel;
@@ -102,7 +101,7 @@ public class ClueGUI extends JPanel {
 		panel.add(nameLabel);
 		panel.add(dispGuess);
 		// Creates border with a title around the panel
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Guess"));
 		return panel;
 	}
 	
@@ -120,16 +119,17 @@ public class ClueGUI extends JPanel {
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess Response"));
 		return panel;
 	}
+
 	
 	// Creates the window and its attributes
-	public static void main(String[] args) {
-		JFrame frame = new JFrame();
-		// Forces the program to stop running when the window is closed
-		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setTitle("Clue");
-		frame.setSize(800, 200);
-		ClueGUI gui = new ClueGUI();
-		frame.add(gui, BorderLayout.CENTER);
-		frame.setVisible(true);
-	}
+//	public static void main(String[] args) {
+//		JFrame frame = new JFrame();
+//		// Forces the program to stop running when the window is closed
+//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//		frame.setTitle("Clue");
+//		frame.setSize(800, 200);
+//		ClueGUI gui = new ClueGUI();
+//		frame.add(gui, BorderLayout.CENTER);
+//		frame.setVisible(true);
+//	}
 }

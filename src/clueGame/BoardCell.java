@@ -1,5 +1,11 @@
 package clueGame;
 
+import java.awt.Color;
+import java.awt.Graphics;
+import java.util.Map;
+
+import javax.swing.JPanel;
+
 import clueGame.DoorDirection;
 
 /**
@@ -8,11 +14,13 @@ import clueGame.DoorDirection;
  *
  */
 
-public class BoardCell {
+public class BoardCell extends JPanel {
 	private int row;
 	private int column;
 	private char initial;
 	private char door;
+	private final static int DIM_X = 30;
+	private final static int DIM_Y = 30;
 	
 	public BoardCell(int r, int c, char i, char d){
 		this.row = r;
@@ -20,7 +28,62 @@ public class BoardCell {
 		this.initial = i;
 		this.door = d;
 	}
+	
 	public BoardCell(){}
+	
+	// Each cell will be 30 x 30 pixels
+	public void draw(Graphics g, Map<Character, String> legend) {
+		// Chooses what to draw based on the attributes of the tile
+		// If walkway, draw a yellow tile with a black border
+		if (this.isWalkway()) {
+			g.setColor(Color.YELLOW);
+			g.fillRect(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
+			g.setColor(Color.BLACK);
+			g.drawRect(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
+		}
+		// If this is a closet cell, draw a red tile
+		else if (this.initial == 'X') {
+			g.setColor(Color.RED);
+			g.fillRect(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
+		}
+		// If this tile is a doorway, draw the tile gray like a room tile
+		// Then draw a small blue rectangle on the border of the door's entrance
+		else if (this.isDoorway()) {
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
+			switch (this.getDoorDirection()) {
+				case UP:
+					g.setColor(Color.BLUE);
+					g.fillRect(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y/10);
+					break;
+				case DOWN:
+					g.setColor(Color.BLUE);
+					g.fillRect(DIM_X*column, DIM_Y*row+DIM_Y-3, DIM_X, DIM_Y/10);
+					break;
+				case LEFT:
+					g.setColor(Color.BLUE);
+					g.fillRect(DIM_X*column, DIM_Y*row, DIM_X/10, DIM_Y);
+					break;
+				case RIGHT:
+					g.setColor(Color.BLUE);
+					g.fillRect(DIM_X*column+DIM_X-3, DIM_Y*row, DIM_X/10, DIM_Y);
+					break;
+				default:
+					System.out.println("Error Displaying Door!");
+					break;
+			}
+		}
+		// If this cell is a room, draw a gray tile. 
+		// If the tile wants a name to be drawn, draw the name of the room according to the legend.
+		else if (this.isRoom()) {
+			g.setColor(Color.LIGHT_GRAY);
+			g.fillRect(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
+			if (door == 'N') {
+				g.setColor(Color.BLACK);
+				g.drawString(legend.get(initial), DIM_X*column, DIM_Y*row);
+			}
+		}
+	}
 	
 	// Checks if the initial of the cell is a walkway or not
 	public boolean isWalkway() {
