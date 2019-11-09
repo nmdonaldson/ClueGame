@@ -48,14 +48,21 @@ public class Board extends JPanel {
 		this.my_deck = Decks.getInstance();
 	}
 	
-	// Draws the board
+	// Draws the board and its components
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
+		// Draws the board
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
 				grid[i][j].draw(g, legend);
 				super.repaint();
 			}
+		}
+		
+		// Draws the player pieces
+		for (int i = 0; i < my_players.size(); i++) {
+			my_players.get(i).draw(g);
+			super.repaint();
 		}
 	}
 

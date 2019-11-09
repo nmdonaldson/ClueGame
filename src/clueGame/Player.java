@@ -19,17 +19,13 @@ public class Player extends JPanel {
 	private String playerName;
 	private int row;
 	private int column;
+	private final static int DIM_X = 30;
+	private final static int DIM_Y = 30;
 	private Color color;
 	private ArrayList<Card> cards;
 	
 	// Default constructor; doesn't do anything
-	public Player() {
-	}
-	
-	// Draws the player's position
-	public void draw(Graphics g) {
-		
-	}
+	public Player() {}
 	
 	// Constructor
 	public Player(String name, String color, int row, int col) {
@@ -38,6 +34,16 @@ public class Player extends JPanel {
 		this.row = row;
 		this.column = col;
 		this.cards = new ArrayList<Card>();
+	}
+	
+	// Draws the player piece on the board
+	public void draw(Graphics g) {
+		// Draws a circle with the color of the player piece
+		g.setColor(color);
+		g.fillOval(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
+		// Draws a black border around the piece
+		g.setColor(Color.BLACK);
+		g.drawOval(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
 	}
 
 	// Checks if the suggestion being made can be disproved
