@@ -110,7 +110,7 @@ public class Decks {
 	public void dealCards() {
 		int j = 0;
 		int i = playerDeck.size() - 1;
-		// Loops through the decks of cards deals them out to each player
+		// Loops through the decks of cards and deals them out to each player
 		while (!playerDeck.isEmpty()) {
 			if (j >= players.size()) j = 0;
 			players.get(j).addCard(playerDeck.get(i));

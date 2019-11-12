@@ -351,23 +351,25 @@ public class Board extends JPanel {
 		my_solution.room = my_deck.getRoomDeck().get(0).getCardName();
 	}	
 	
-	
+	// Gets the players loaded in from the deck class
 	public void createPlayers() {
-		//my_deck.initialize();
+		my_deck.dealCards();
 		for(int i = 0; i < my_deck.getPlayers().size(); i++) {
 			String name;
 			Color color;
 			int row, col;
+			ArrayList<Card> cards;
 			ArrayList<Player> players = my_deck.getPlayers();
 			name = players.get(i).getName();
 			color = players.get(i).getColor();
 			row = players.get(i).getRow();
 			col = players.get(i).getColumn();
+			cards = players.get(i).getCards();
 			if(i == 0) {
-				my_players.add(new HumanPlayer(name, color, row, col));
+				my_players.add(new HumanPlayer(name, color, row, col, cards));
 				continue;
 			}
-			my_players.add(new ComputerPlayer(name, color, row, col));
+			my_players.add(new ComputerPlayer(name, color, row, col, cards));
 		}
 	}
 	

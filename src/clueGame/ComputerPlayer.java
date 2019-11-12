@@ -14,20 +14,20 @@ import java.util.Random;
 public class ComputerPlayer extends Player {
 	private BoardCell previousRoom;
 	
-	public ComputerPlayer(String name, Color color, int row, int col) {
+	public ComputerPlayer(String name, Color color, int row, int col, ArrayList<Card> cards) {
 		super.setPlayerName(name);
 		super.setColor(color);
 		super.setRow(row);
 		super.setColumn(col);
-		super.setCards(new ArrayList<Card>());
+		super.setCards(cards);
 		this.previousRoom = new BoardCell();
 	}
-	public ComputerPlayer(String name, String color, int row, int col) {
+	public ComputerPlayer(String name, String color, int row, int col, ArrayList<Card> cards) {
 		super.setPlayerName(name);
 		super.setColor(convertColor(color));
 		super.setRow(row);
 		super.setColumn(col);
-		super.setCards(new ArrayList<Card>());
+		super.setCards(cards);
 		this.previousRoom = new BoardCell();
 	}
 	

@@ -27,7 +27,8 @@ public class ClueGame extends JFrame {
 		board.setConfigFiles("Board.csv", "ClueRooms.txt");
 		board.initialize();
 		ClueGUI gui = new ClueGUI();
-		ClueCardsGUI cardGUI = new ClueCardsGUI();
+		// Gets the human player object (for their cards)
+		ClueCardsGUI cardGUI = new ClueCardsGUI(board.getMy_players().get(0));
 		DetectiveNotesGUI notesGUI = new DetectiveNotesGUI(this);
 		notesGUI.setVisible(true);
 		displaySplashWindow(board.getMy_players());
@@ -43,6 +44,7 @@ public class ClueGame extends JFrame {
 		JFrame window = new JFrame();
 		window.setPreferredSize(new Dimension(200, 500));
 		JOptionPane splash = new JOptionPane();
+		// Displays, "You are [PLAYERNAME], press Next Player to begin play"
 		JOptionPane.showMessageDialog(window, "You are " + players.get(0).getName() + 
 				", press Next Player to begin play", "Welcome to Clue", JOptionPane.INFORMATION_MESSAGE);
 		splash.setVisible(true);

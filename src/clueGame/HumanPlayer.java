@@ -12,11 +12,11 @@ import java.util.ArrayList;
 // Child of the player class
 public class HumanPlayer extends Player {
 	
-	public HumanPlayer(String name, Color color, int row, int col) {
+	public HumanPlayer(String name, Color color, int row, int col, ArrayList<Card> cards) {
 		super.setPlayerName(name);
 		super.setColor(color);
 		super.setRow(row);
 		super.setColumn(col);
-		super.setCards(new ArrayList<Card>());
+		super.setCards(cards);
 	}
 }
