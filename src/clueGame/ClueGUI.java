@@ -28,18 +28,12 @@ public class ClueGUI extends JPanel {
 	public ClueGUI() {
 		// Create a layout with 2 rows
 		setLayout(new GridLayout(2,3));
-		JPanel panel = displayTurn();
-		add(panel);
-		panel = playerMove();
-		add(panel);
-		panel = makeAccusation();
-		add(panel);
-		panel = rollDie();
-		add(panel);
-		panel = displayGuess();
-		add(panel);
-		panel = displayGuessResult();
-		add(panel);
+		add(displayTurn());
+		add(playerMove());
+		add(makeAccusation());
+		add(rollDie());
+		add(displayGuess());
+		add(displayGuessResult());
 	}
 	
 	// Creates die roll panel
@@ -60,7 +54,7 @@ public class ClueGUI extends JPanel {
 	// Creates player movement button and allows it to handle player actions
 	private JPanel playerMove() {
 		// No layout, created using default flow
-		nextPlayer = new JButton("Next player");
+		nextPlayer = new JButton("Next Player");
 		nextPlayer.setPreferredSize(new Dimension(280, 75));
 		ButtonListener listener = new ButtonListener();
 		nextPlayer.addActionListener(listener);
@@ -72,7 +66,7 @@ public class ClueGUI extends JPanel {
 	// Creates accusation button and allows it to handle accusations
 	private JPanel makeAccusation() {
 		// No layout, So it's created with the default flow
-		makeAccusation = new JButton("Make an accusation");
+		makeAccusation = new JButton("Make an Accusation");
 		makeAccusation.setPreferredSize(new Dimension(280, 75));
 		ButtonListener listener = new ButtonListener();
 		makeAccusation.addActionListener(listener);
@@ -88,6 +82,7 @@ public class ClueGUI extends JPanel {
 		panel.setLayout(new GridLayout(2,2));
 		JLabel nameLabel = new JLabel("Whose Turn?");
 		JTextField whosTurn = new JTextField();
+		whosTurn.setText(board.getMy_players().get(playerCounter).getName());
 		whosTurn.setEditable(false);
 		panel.add(nameLabel);
 		panel.add(whosTurn);
@@ -99,13 +94,13 @@ public class ClueGUI extends JPanel {
 		JPanel panel = new JPanel();
 	 	// Created on the second row (column doesn't matter)
 		panel.setLayout(new GridLayout(2,2));
-		JLabel nameLabel = new JLabel("Guess");
+		JLabel nameLabel = new JLabel("The Guess");
 		JTextField dispGuess = new JTextField();
 		dispGuess.setEditable(false);
 		panel.add(nameLabel);
 		panel.add(dispGuess);
 		// Creates border with a title around the panel
-		panel.setBorder(new TitledBorder (new EtchedBorder(), "My Guess"));
+		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess"));
 		return panel;
 	}
 	
@@ -128,60 +123,40 @@ public class ClueGUI extends JPanel {
 	private class ButtonListener implements ActionListener {
 		@Override
         public void actionPerformed(ActionEvent e) {
+			// Keeps the playerCounter in range
 			playerCounter %= board.getMy_players().size();
 	        if (e.getSource() == nextPlayer) {
-	        	board.turn(playerCounter);
-	        	playerCounter++;
+	        	if (board.turn(playerCounter)) {
+	        		
+	        	}
 	        	// Removes every panel, updates them, then redraws them
+	        	// credit: https://stackoverflow.com/questions/2501861/how-can-i-remove-a-jpanel-from-a-jframe
 	        	removeAll();
 	    		setLayout(new GridLayout(2,3));
-	    		JPanel panel = displayTurn();
-	    		add(panel);
-	    		panel = playerMove();
-	    		add(panel);
-	    		panel = makeAccusation();
-	    		add(panel);
-	    		panel = rollDie();
-	    		add(panel);
-	    		panel = displayGuess();
-	    		add(panel);
-	    		panel = displayGuessResult();
-	    		add(panel);
+	    		add(displayTurn());
+	    		add(playerMove());
+	    		add(makeAccusation());
+	    		add(rollDie());
+	    		add(displayGuess());
+	    		add(displayGuessResult());
 	        	validate();
 	        	repaint();
+	        	playerCounter++;
 	        }
 	        else if (e.getSource() == makeAccusation) {
 	        	// Removes every panel, updates them, then redraws them
+	        	// credit: https://stackoverflow.com/questions/2501861/how-can-i-remove-a-jpanel-from-a-jframe
 	        	removeAll();
 	    		setLayout(new GridLayout(2,3));
-	    		JPanel panel = displayTurn();
-	    		add(panel);
-	    		panel = playerMove();
-	    		add(panel);
-	    		panel = makeAccusation();
-	    		add(panel);
-	    		panel = rollDie();
-	    		add(panel);
-	    		panel = displayGuess();
-	    		add(panel);
-	    		panel = displayGuessResult();
-	    		add(panel);
+	    		add(displayTurn());
+	    		add(playerMove());
+	    		add(makeAccusation());
+	    		add(rollDie());
+	    		add(displayGuess());
+	    		add(displayGuessResult());
 	        	validate();
 	        	repaint();
 	        }
 	    }
 	}
-
-	
-	// Creates the window and its attributes
-//	public static void main(String[] args) {
-//		JFrame frame = new JFrame();
-//		// Forces the program to stop running when the window is closed
-//		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-//		frame.setTitle("Clue");
-//		frame.setSize(800, 200);
-//		ClueGUI gui = new ClueGUI();
-//		frame.add(gui, BorderLayout.CENTER);
-//		frame.setVisible(true);
-//	}
 }

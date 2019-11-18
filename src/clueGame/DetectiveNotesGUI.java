@@ -26,7 +26,7 @@ public class DetectiveNotesGUI  extends JDialog{
 		super(A);
 		setLayout(new GridLayout(3,2));
 		setSize(550,500);
-		setTitle("Dective Notes");
+		setTitle("Detective Notes");
 		JPanel panel = new JPanel();
 		panel = dispPeople();
 		add(panel);

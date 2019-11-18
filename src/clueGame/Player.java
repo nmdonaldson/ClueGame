@@ -21,8 +21,6 @@ public class Player extends JPanel {
 	private int dieRoll;
 	private int row;
 	private int column;
-	private final static int DIM_X = 30;
-	private final static int DIM_Y = 30;
 	private Color color;
 	private ArrayList<Card> cards;
 	
@@ -39,7 +37,7 @@ public class Player extends JPanel {
 	}
 	
 	// Draws the player piece on the board
-	public void draw(Graphics g) {
+	public void draw(Graphics g, int DIM_X, int DIM_Y) {
 		// Draws a circle with the color of the player piece
 		g.setColor(color);
 		g.fillOval(DIM_X*column, DIM_Y*row, DIM_X, DIM_Y);
@@ -89,8 +87,8 @@ public class Player extends JPanel {
 	// Chooses where to move to. Exists to be overwritten
 	public void makeMove(Set<BoardCell> targs) {}
 	
-	// Exists to be overwritten
-	public void drawTargets(Graphics g, Set<BoardCell> targs) {}
+	// Draws the targets for the player. Exists to be overwritten
+	public void drawTargets(Graphics g, Set<BoardCell> targs, int DIM_X, int DIM_Y) {}
 	
 	// Accessors
 	public String getName() {
@@ -134,5 +132,4 @@ public class Player extends JPanel {
 	public void setCards(ArrayList<Card> cards) {
 		this.cards = cards;
 	}
-
 }

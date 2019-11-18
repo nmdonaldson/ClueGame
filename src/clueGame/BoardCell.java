@@ -19,8 +19,6 @@ public class BoardCell extends JPanel {
 	private int column;
 	private char initial;
 	private char door;
-	private final static int DIM_X = 30;
-	private final static int DIM_Y = 30;
 	
 	public BoardCell(int r, int c, char i, char d){
 		this.row = r;
@@ -32,7 +30,7 @@ public class BoardCell extends JPanel {
 	public BoardCell(){}
 	
 	// Each cell will be 30 x 30 pixels
-	public void draw(Graphics g, Map<Character, String> legend) {
+	public void draw(Graphics g, Map<Character, String> legend, int DIM_X, int DIM_Y) {
 		// Chooses what to draw based on the attributes of the tile
 		// If walkway, draw a yellow tile with a black border
 		if (this.isWalkway()) {

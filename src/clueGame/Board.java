@@ -2,9 +2,12 @@ package clueGame;
 
 import java.util.Set;
 
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
@@ -25,7 +28,12 @@ public class Board extends JPanel implements MouseListener {
 	private int numRows;
 	private int numCols;
 	private int dieRoll;
+	private int playerCounter = 0;
+	private int X;
+	private int Y;
 	public final static int MAX_BOARD_SIZE = 50;
+	private final static int DIM_X = 30; // Represents the width of each cell
+	private final static int DIM_Y = 30; // Represents the height of each cell
 	private BoardCell[][] grid;
 	private Map<BoardCell, Set<BoardCell>> adjStore;
 	private Set<BoardCell> targets;
@@ -58,15 +66,19 @@ public class Board extends JPanel implements MouseListener {
 		// Draws the board
 		for (int i = 0; i < numRows; i++) {
 			for (int j = 0; j < numCols; j++) {
-				grid[i][j].draw(g, legend);
+				grid[i][j].draw(g, legend, DIM_X, DIM_Y);
 				super.repaint();
 			}
 		}
 		
-		for (Player player : my_players) {
-			player.draw(g);
-			super.repaint();
+		// Draws the human player's targets
+		if (playerCounter == 0) {
+			my_players.get(playerCounter).drawTargets(g, targets, DIM_X, DIM_Y);
 		}
+		
+		// Draws each player
+		for (Player player : my_players) player.draw(g, DIM_X, DIM_Y);
+		super.repaint();
 	}
 
 	// Checks the accusation's accuracy
@@ -378,26 +390,48 @@ public class Board extends JPanel implements MouseListener {
 		}
 	}
 	
-	// Tells the board if the turn button has been pressed and then does the turn
-	public void turn(int i) {
-		// Highlight the target(s) they can move to
-		// If this is the human player, make them choose a target
-		//if (i == 0) my_players.get(i).drawTargets(g, targets);
-		
-		dieRoll = my_players.get(i).rollDie();
-		calcTargets(my_players.get(i).getRow(), my_players.get(i).getColumn(), dieRoll);
+	// Calls the functions necessary for a player's turn to happen
+	public boolean turn(int i) {
+		playerCounter = i;
+		dieRoll = my_players.get(playerCounter).rollDie();
+		calcTargets(my_players.get(playerCounter).getRow(), my_players.get(playerCounter).getColumn(), dieRoll);
 
-		my_players.get(i).makeMove(targets);
+		// If the player is a human, prevent the turn from advancing unless they choose a target
+		if (playerCounter == 0) {
+			my_players.get(playerCounter).makeMove(targets);
+			
+		}
+		my_players.get(playerCounter).makeMove(targets);
+		
+		return true;
 	}
 	
-	public int getDieRoll() {
-		return dieRoll;
-	}
-
-	// Handles the player clicking on a target space
+	// Gets the position of the mouse clicks
 	@Override
 	public void mouseClicked(MouseEvent e) {
-		
+		// If it's the human player's turn, check where they click on the board
+		if (playerCounter == 0) {
+			X = e.getX();
+			X /= DIM_X;
+			Y = e.getY();
+			Y /= DIM_Y;
+			boolean targetTest = false;
+			
+			// Causes error window to appear if the player chooses an invalid target
+			for (BoardCell target : targets) {
+				if (target.getRow() == Y && target.getColumn() == X) {
+					targetTest = true;
+					break;
+				}
+			}
+			if (!targetTest) {
+				JFrame window = new JFrame();
+				window.setPreferredSize(new Dimension(200, 525));
+				JOptionPane splash = new JOptionPane();
+				JOptionPane.showMessageDialog(window, "Please choose a valid space to move to!", "Invalid Space", JOptionPane.INFORMATION_MESSAGE);
+				splash.setVisible(true);
+			}
+		}
 		repaint();
 	}
 
@@ -434,6 +468,10 @@ public class Board extends JPanel implements MouseListener {
 			return grid[row][column];
 		} else
 			return null;
+	}
+	
+	public int getDieRoll() {
+		return dieRoll;
 	}
 
 	public Map<Character, String> getLegend() {return legend;}
