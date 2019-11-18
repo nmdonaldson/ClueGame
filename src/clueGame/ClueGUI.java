@@ -6,25 +6,24 @@ package clueGame;
  *
  */
 
-import java.awt.BorderLayout;
 import java.awt.Dimension;
 import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-import javax.swing.JTextArea;
-import javax.swing.JTextPane;
 import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
-import java.util.Random;
-
-import experiment.GUI_Example;
 
 public class ClueGUI extends JPanel {
-
+	private JButton nextPlayer;
+	private JButton makeAccusation;
+	private Board board = Board.getInstance();
+	private int playerCounter = 0;
+	
 	// Constructor. Adds each panel to the window 
 	public ClueGUI() {
 		// Create a layout with 2 rows
@@ -50,6 +49,7 @@ public class ClueGUI extends JPanel {
 		panel.setLayout(new GridLayout(2,1));
 		JLabel nameLabel = new JLabel("Roll");
 		JTextField dieRoll = new JTextField();
+		dieRoll.setText(Integer.toString(board.getDieRoll()));
 		dieRoll.setEditable(false);
 		panel.add(nameLabel);
 		panel.add(dieRoll);
@@ -57,21 +57,25 @@ public class ClueGUI extends JPanel {
 		return panel;
 	}
 	
-	// Creates player movement button
+	// Creates player movement button and allows it to handle player actions
 	private JPanel playerMove() {
 		// No layout, created using default flow
-		JButton nextPlayer = new JButton("Next player");
+		nextPlayer = new JButton("Next player");
 		nextPlayer.setPreferredSize(new Dimension(280, 75));
+		ButtonListener listener = new ButtonListener();
+		nextPlayer.addActionListener(listener);
 		JPanel panel = new JPanel();
 		panel.add(nextPlayer);
 		return panel;
 	}
 
-	// Creates accusation button
+	// Creates accusation button and allows it to handle accusations
 	private JPanel makeAccusation() {
 		// No layout, So it's created with the default flow
-		JButton makeAccusation = new JButton("Make an accusation");
+		makeAccusation = new JButton("Make an accusation");
 		makeAccusation.setPreferredSize(new Dimension(280, 75));
+		ButtonListener listener = new ButtonListener();
+		makeAccusation.addActionListener(listener);
 		JPanel panel = new JPanel();
 		panel.add(makeAccusation);
 		return panel;
@@ -118,6 +122,54 @@ public class ClueGUI extends JPanel {
 		// Creates border with a title around the panel
 		panel.setBorder(new TitledBorder (new EtchedBorder(), "Guess Response"));
 		return panel;
+	}
+	
+	// Subclass the GUI uses to get allow the nextPlayer and accusation buttons to work
+	private class ButtonListener implements ActionListener {
+		@Override
+        public void actionPerformed(ActionEvent e) {
+			playerCounter %= board.getMy_players().size();
+	        if (e.getSource() == nextPlayer) {
+	        	board.turn(playerCounter);
+	        	playerCounter++;
+	        	// Removes every panel, updates them, then redraws them
+	        	removeAll();
+	    		setLayout(new GridLayout(2,3));
+	    		JPanel panel = displayTurn();
+	    		add(panel);
+	    		panel = playerMove();
+	    		add(panel);
+	    		panel = makeAccusation();
+	    		add(panel);
+	    		panel = rollDie();
+	    		add(panel);
+	    		panel = displayGuess();
+	    		add(panel);
+	    		panel = displayGuessResult();
+	    		add(panel);
+	        	validate();
+	        	repaint();
+	        }
+	        else if (e.getSource() == makeAccusation) {
+	        	// Removes every panel, updates them, then redraws them
+	        	removeAll();
+	    		setLayout(new GridLayout(2,3));
+	    		JPanel panel = displayTurn();
+	    		add(panel);
+	    		panel = playerMove();
+	    		add(panel);
+	    		panel = makeAccusation();
+	    		add(panel);
+	    		panel = rollDie();
+	    		add(panel);
+	    		panel = displayGuess();
+	    		add(panel);
+	    		panel = displayGuessResult();
+	    		add(panel);
+	        	validate();
+	        	repaint();
+	        }
+	    }
 	}
 
 	

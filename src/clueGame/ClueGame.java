@@ -1,6 +1,7 @@
 package clueGame;
 
 import java.awt.BorderLayout;
+import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.util.ArrayList;
@@ -32,6 +33,7 @@ public class ClueGame extends JFrame {
 		DetectiveNotesGUI notesGUI = new DetectiveNotesGUI(this);
 		notesGUI.setVisible(true);
 		displaySplashWindow(board.getMy_players());
+		
 		
 		// Calls paintComponent automatically
 		add(board, BorderLayout.CENTER);

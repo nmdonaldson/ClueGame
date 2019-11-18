@@ -3,6 +3,7 @@ package clueGame;
 import java.awt.Color;
 import java.awt.Graphics;
 import java.util.Random;
+import java.util.Set;
 
 import javax.swing.JPanel;
 
@@ -17,6 +18,7 @@ import java.util.ArrayList;
 
 public class Player extends JPanel {
 	private String playerName;
+	private int dieRoll;
 	private int row;
 	private int column;
 	private final static int DIM_X = 30;
@@ -75,7 +77,21 @@ public class Player extends JPanel {
 		}
 		return color;
 	}
+	
 
+	
+	// Rolls the dice, returns value of the dice roll
+	public int rollDie() {
+		Random rand = new Random();
+		return dieRoll = rand.nextInt(6) + 1;
+	}
+	
+	// Chooses where to move to. Exists to be overwritten
+	public void makeMove(Set<BoardCell> targs) {}
+	
+	// Exists to be overwritten
+	public void drawTargets(Graphics g, Set<BoardCell> targs) {}
+	
 	// Accessors
 	public String getName() {
 		return playerName;
@@ -118,4 +134,5 @@ public class Player extends JPanel {
 	public void setCards(ArrayList<Card> cards) {
 		this.cards = cards;
 	}
+
 }

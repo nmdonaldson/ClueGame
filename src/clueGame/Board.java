@@ -6,6 +6,8 @@ import javax.swing.JPanel;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -19,9 +21,10 @@ import java.io.*;
  *
  */
 
-public class Board extends JPanel {
+public class Board extends JPanel implements MouseListener {
 	private int numRows;
 	private int numCols;
+	private int dieRoll;
 	public final static int MAX_BOARD_SIZE = 50;
 	private BoardCell[][] grid;
 	private Map<BoardCell, Set<BoardCell>> adjStore;
@@ -46,6 +49,7 @@ public class Board extends JPanel {
 		this.my_solution =  new Solution();
 		this.my_players = new ArrayList<Player>();
 		this.my_deck = Decks.getInstance();
+		addMouseListener(this);
 	}
 	
 	// Draws the board and its components
@@ -59,9 +63,8 @@ public class Board extends JPanel {
 			}
 		}
 		
-		// Draws the player pieces
-		for (int i = 0; i < my_players.size(); i++) {
-			my_players.get(i).draw(g);
+		for (Player player : my_players) {
+			player.draw(g);
 			super.repaint();
 		}
 	}
@@ -214,7 +217,7 @@ public class Board extends JPanel {
 		pathGen(pathLength, pathTraverse, grid[row][column], visited, current);
 	}
 
-	// Recursively moves through each possible path available to the player
+	// Performs a DFS on the board to get each possible target
 	private void pathGen(int pathLength, int pathTraverse, BoardCell start, BoardCell visited, BoardCell current) {
 		// Base case, reached at the end of each path. Adds the cell at the end of the path
 		// to the targets set and resets everything else
@@ -366,16 +369,42 @@ public class Board extends JPanel {
 			col = players.get(i).getColumn();
 			cards = players.get(i).getCards();
 			if(i == 0) {
-				my_players.add(new HumanPlayer(name, color, row, col, cards));
+				Player human = new HumanPlayer(name, color, row, col, cards);
+				my_players.add(human);
 				continue;
 			}
-			my_players.add(new ComputerPlayer(name, color, row, col, cards));
+			Player CPU = new ComputerPlayer(name, color, row, col, cards);
+			my_players.add(CPU);
 		}
 	}
 	
+	// Tells the board if the turn button has been pressed and then does the turn
+	public void turn(int i) {
+		// Highlight the target(s) they can move to
+		// If this is the human player, make them choose a target
+		//if (i == 0) my_players.get(i).drawTargets(g, targets);
+		
+		dieRoll = my_players.get(i).rollDie();
+		calcTargets(my_players.get(i).getRow(), my_players.get(i).getColumn(), dieRoll);
+
+		my_players.get(i).makeMove(targets);
+	}
+	
+	public int getDieRoll() {
+		return dieRoll;
+	}
+
+	// Handles the player clicking on a target space
+	@Override
+	public void mouseClicked(MouseEvent e) {
+		
+		repaint();
+	}
+
 	// Instance method, makes sure there is only one instance of board
 	// Also provides a global access point to the board
 	public static Board getInstance() {return instance;}
+	
 	// Returns list of targets
 	public Set<BoardCell> getTargets() {return targets;}
 
@@ -423,4 +452,17 @@ public class Board extends JPanel {
 	public void setMy_players(ArrayList<Player> my_players) {
 		this.my_players = my_players;
 	}
+
+	// Unimplemented mouse listener methods
+	@Override
+	public void mousePressed(MouseEvent e) {}
+
+	@Override
+	public void mouseReleased(MouseEvent e) {}
+
+	@Override
+	public void mouseEntered(MouseEvent e) {}
+
+	@Override
+	public void mouseExited(MouseEvent e) {}
 }

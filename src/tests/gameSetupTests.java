@@ -93,7 +93,6 @@ public class gameSetupTests {
 	// Tests that the room cards are loaded correctly
 	public void testLoadRooms() {
 		ArrayList<Card> roomCards = deck.getRoomDeck();
-		System.out.println("diarrhea");
 		// 9 rooms
 		assertEquals(roomCards.size(), 9);
 		// The first room is the Conservatory
@@ -114,7 +113,6 @@ public class gameSetupTests {
 	// Tests that the cards are being dealt fairly 
 	public void AtestDealing() {
 		deck.dealCards();
-		System.out.println("poop");
 		ArrayList<Card> roomCards = deck.getRoomDeck();
 		ArrayList<Card> weaponCards = deck.getWeaponDeck();
 		ArrayList<Card> playerDeck = deck.getPlayerDeck();

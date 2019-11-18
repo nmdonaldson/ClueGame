@@ -30,7 +30,7 @@ public class gameActionTests {
 		board.setConfigFiles("Board.csv", "ClueRooms.txt");
 		board.initialize();
 		deck = board.getDecks();
-		compPlayer = new ComputerPlayer("abc", "BLUE", 1, 1);	
+		compPlayer = new ComputerPlayer("abc", "BLUE", 1, 1, new ArrayList<Card>());
 	}
 	
 	@Test

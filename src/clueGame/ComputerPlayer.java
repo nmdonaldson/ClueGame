@@ -89,4 +89,13 @@ public class ComputerPlayer extends Player {
 		suggestion.room = place;
 		return suggestion;
 	}
+	
+	// Picks a target to move to and moves to it, also handles suggestions and accusations
+	@Override
+	public void makeMove(Set<BoardCell> targs) {
+		BoardCell pick = pickLocation(targs);
+		super.setRow(pick.getRow());
+		super.setColumn(pick.getColumn());
+		// TODO: For next lab, handle suggestions and accusations here
+	}
 }
