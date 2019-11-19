@@ -1,0 +1,11 @@
+C, Conservatory, Card
+O, Office, Card
+P, Pool, Card
+F, Foyer, Card
+B, Bathroom, Card
+R, Billiard room, Card
+S, Study, Card
+A, Armory, Card
+K, Kitchen, Card
+X, Closet, Other
+W, Walkway, Other

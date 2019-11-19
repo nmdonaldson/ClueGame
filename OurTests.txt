@@ -1,0 +1,6 @@
+Names: Nolan Donaldson, Chase Patterson
+The test cells were selected based on their locations/contents. Our board
+has 14 doors, is 21 rows tall and 23 columns wide, and the legend has 11
+lines. The conservatory room has a down facing door, the billiard room has an
+up facing door, the the bathroom has a right facing foor, and the office has
+a right facing door.

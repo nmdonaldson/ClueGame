@@ -1,0 +1,257 @@
+commit b3c936111937e2edbb18ab90286d5441e0fb578a
+Author: Nolan Donaldson <nmdonaldson@comcast.net>
+Date:   Tue Nov 12 12:33:15 2019 -0700
+
+    Human player's cards now display properly
+
+commit 22de7b4af2e534e6378d06d6df87e08853dde54f
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Tue Nov 12 11:26:57 2019 -0700
+
+    Game now displays splash window properly
+
+commit f94fbacb1caee2c29828eb4104d92061d8e8ab35
+Author: Nolan Donaldson <nmdonaldson@comcast.net>
+Date:   Sat Nov 9 00:45:01 2019 -0700
+
+    Players display properly
+
+commit a75284d0e6fe184cc6fda548138073e381c62ded
+Author: Nolan Donaldson <nmdonaldson@comcast.net>
+Date:   Fri Nov 8 21:47:54 2019 -0700
+
+    Board and the surrounding GUI elements now display properly
+
+commit 2b409dc6fae789a04033fe04beea4c878806353e
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 02:58:14 2019 -0700
+
+    Double disproval tests pass
+
+commit 4c0b3d7169b6f95dccf64846603f9675d61db1c4
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 02:56:37 2019 -0700
+
+    Created tests for double disproval
+
+commit 4234e323695ca75a7425ed15de6940484c9d2676
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 02:50:45 2019 -0700
+
+    Passes tests if human can only disprove but also is accuser
+
+commit ed2bc9442946f87f64fb6c88ab86a2536a4f7a1f
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 01:53:07 2019 -0700
+
+    Passes test if human can only disprove answer
+
+commit e7ba253c3fe839fc791104a5380be1990c6a408c
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 01:51:11 2019 -0700
+
+    Passed accusing player -> null test
+
+commit 83a84d0d151b4a7b51a45bc8dd8c287f2cfc2a56
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 01:04:58 2019 -0700
+
+    Suggestion no one can disprove test passes
+
+commit ee38c96ccc3f7308d6f8351998eb2479ce95e081
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 00:57:44 2019 -0700
+
+    Created undisprovable suggestion test
+
+commit 4a8aa2c56a7b2f4a4c75cac630794f1583d2ebbf
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Nov 6 00:47:25 2019 -0700
+
+    Passed disprove suggestion tests
+
+commit 229ce714de9958735ff171533fa4d9f33f1d0894
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Tue Nov 5 23:31:29 2019 -0700
+
+    Passed target tests for computer player
+
+commit 3718f5eadcfff4ead6a0a52565496be829e8b297
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Tue Nov 5 23:28:57 2019 -0700
+
+    Created target tests for computer player
+
+commit c3fd85825c370338962cbc09deebc124421fa618
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Thu Oct 31 01:22:08 2019 -0600
+
+    Passed the tests
+
+commit ded141438b8992cc73823371a7d81df0a75c1c70
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Oct 30 22:43:35 2019 -0600
+
+    Room card tests now pass
+
+commit f8e5e9dd4a25d672c14e7cd0ce3cc31c22d0f2e9
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Oct 30 22:30:22 2019 -0600
+
+    Created room card tests
+
+commit 93056436fe6b8c93f2ea57de8d99a70c66548d76
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Oct 30 22:24:52 2019 -0600
+
+    Weapon tests pass
+
+commit f75bf33a26f1b4e8e73db8e52763976b0ca995f1
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Oct 30 22:17:35 2019 -0600
+
+    Created weapon card tests
+
+commit 63d0819210df346c380e8f29348c3985fdb0e5c5
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Oct 30 21:46:58 2019 -0600
+
+    Created color and location tests for players
+
+commit 9e9272d2d62fa90b30088ad31c556c9e34ea54e4
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Oct 30 20:57:39 2019 -0600
+
+    Player card tests pass
+
+commit 2ef36e36e0d59f7c27c5b3cec037d64ffcbf7565
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Wed Oct 30 20:37:58 2019 -0600
+
+    Created test to load player cards
+
+commit c6c4a9800459e44710744dd04798d580f86b1d46
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Tue Oct 29 12:15:33 2019 -0600
+
+    Added classes from UML and the testing class
+
+commit abe21bfd1bdd781ce501242bb3474fe5b2815ae2
+Author: Nolan Donaldson <nmdonaldson@comcast.net>
+Date:   Thu Oct 24 12:46:11 2019 -0600
+
+    Removed redundant variables in cellCheck method
+
+commit ff94120286194bba934d2a9f10ba6c152d68f661
+Author: Nolan Donaldson <nmdonaldson@comcast.net>
+Date:   Thu Oct 24 12:43:32 2019 -0600
+
+    Moved code that adds the adjacent cells to their own methods
+
+commit af9acd18b8e455b3fde73ef08ff139476015fb1d
+Author: Chase Patterson <cpatterson@mines.edu>
+Date:   Thu Oct 24 12:13:07 2019 -0600
+
+    Moved the logic of calcAdjacencies to another method
+
+commit 06a83fb3043ba6fe158538d1e7c4e4347a5865d4
+Author: Chase Patterson <cpatterson@mines.edu>
+Date:   Thu Oct 24 12:05:02 2019 -0600
+
+    Made some methods more readable
+
+commit ad09c4a1474e6aa6b8d7a15fc5d84c254d21d94a
+Author: Chase Patterson <cpatterson@mines.edu>
+Date:   Thu Oct 24 12:00:18 2019 -0600
+
+    Added necessary switch statement to Board.java
+
+commit dd2abe6e25097c16dcbb69c06d2ffd8b32316637
+Author: Chase Patterson <cpatterson@mines.edu>
+Date:   Thu Oct 24 11:57:43 2019 -0600
+
+    Removed unnecessary switch statement in calcAdjacencies
+
+commit 04cb722a11414134df958f2d8dcb0e9a38e67b12
+Author: Chase Patterson <cpatterson@mines.edu>
+Date:   Thu Oct 24 11:54:40 2019 -0600
+
+    Added comments in calcAdjacencies
+
+commit 9209da0d677457dbc33a4f29e9df710c08fd2c18
+Author: Chase Patterson <cpatterson@mines.edu>
+Date:   Thu Oct 24 11:48:46 2019 -0600
+
+    Removed uncecessary method
+
+commit 2bff3130c55985926729e650536be7a37eafc583
+Author: Chase Patterson <cpatterson@mines.edu>
+Date:   Thu Oct 24 11:47:22 2019 -0600
+
+    Changed grid directions to variables
+
+commit a1c6263fa6e5d725564956852b9346ae80941967
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Thu Oct 24 01:49:57 2019 -0600
+
+    Target and adjacency tests now pass
+
+commit 5152c0529d4d392ab5ab7f234a8af91ed525c0ba
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Sun Oct 20 18:11:45 2019 -0600
+
+    Updated target calculation algorithm to not be wrong
+
+commit fe9f2bf4053330a1600d3b106f1847f516f61266
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Thu Oct 17 23:04:55 2019 -0600
+
+    Finished writing adjacency and target tests
+
+commit 9d6d079d792ad7b3fd6f641edd88a6c35c9fae43
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Thu Oct 17 23:04:18 2019 -0600
+
+    Finished writing target and adjacency tests
+
+commit 8f8dcf035925f7aab8f33e082604db84929d3cb3
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Thu Oct 17 02:47:35 2019 -0600
+
+    Finished exception testing
+
+commit 68255e5706f02282a22f2157f9b83601470c9bd0
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Thu Oct 17 01:32:22 2019 -0600
+
+    Board class passes all tests except exception testing
+
+commit afd8f1b3ec777fc31115ee6bf65752ff3a05e877
+Author: Nolan Donaldson <nmdonaldson@comcast.net>
+Date:   Sat Oct 5 13:39:38 2019 -0600
+
+    Passed the tests
+
+commit 7428748b38f940d4068ee6cdac1630bc4782e271
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Fri Oct 4 17:39:28 2019 -0600
+
+    Finished test file and IntBoard class skeleton
+
+commit 4fed3d0a49a12f2397da72f98fdfdb4fe46f2f34
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Fri Oct 4 17:38:40 2019 -0600
+
+    Finished test file and IntBoard class skeleton
+
+commit 4d8715a51cefa49d68ee2248859a996b28edf24e
+Author: Nolan Donaldson <nmdonaldson@mines.edu>
+Date:   Thu Oct 3 12:06:03 2019 -0600
+
+    Initial commit. Created ClueGame and needed classes for testing
+
+commit 4f74f224274c761ecd6b77947ff1002bc68ffcd9
+Author: Nolan Donaldson <nmdonaldson@mymail.mines.edu>
+Date:   Thu Oct 3 11:48:16 2019 -0600
+
+    Initial commit

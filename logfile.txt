@@ -1,0 +1,1 @@
+Error: Unsupported format in file CTest_ClueLegendBadFormat.txt

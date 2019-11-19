@@ -1,0 +1,35 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "type": "java",
+            "name": "Debug (Launch) - Current File",
+            "request": "launch",
+            "mainClass": "${file}"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-ClueGame<_ClueGame>",
+            "request": "launch",
+            "mainClass": "clueGame.ClueGame",
+            "projectName": "_ClueGame"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-GUI_Example<_ClueGame>",
+            "request": "launch",
+            "mainClass": "experiment.GUI_Example",
+            "projectName": "_ClueGame"
+        },
+        {
+            "type": "java",
+            "name": "Debug (Launch)-IntBoard<_ClueGame>",
+            "request": "launch",
+            "mainClass": "experiment.IntBoard",
+            "projectName": "_ClueGame"
+        }
+    ]
+}
