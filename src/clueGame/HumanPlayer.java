@@ -22,11 +22,6 @@ public class HumanPlayer extends Player {
 		super.setCards(cards);
 	}
 	
-	// Allows the player to choose where to move to as long as it's within the target list
-	@Override
-	public void makeMove(Set<BoardCell> targs) {
-	}
-	
 	// Highlights the targets on the board
 	@Override
 	public void drawTargets(Graphics g, Set<BoardCell> targs, int DIM_X, int DIM_Y) {

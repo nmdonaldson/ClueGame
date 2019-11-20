@@ -78,16 +78,19 @@ public class ClueCardsGUI extends JPanel {
 				case PERSON:
 					JTextField peopleCard = new JTextField();
 					peopleCard.setText(cardList.get(i).getCardName());
+					peopleCard.setEditable(false);
 					peopleCards.add(peopleCard);
 					break;
 				case WEAPON:
 					JTextField weaponCard = new JTextField();
 					weaponCard.setText(cardList.get(i).getCardName());
+					weaponCard.setEditable(false);
 					weaponCards.add(weaponCard);
 					break;
 				case ROOM:
 					JTextField roomCard = new JTextField();
 					roomCard.setText(cardList.get(i).getCardName());
+					roomCard.setEditable(false);
 					roomCards.add(roomCard);
 					break;
 				default:

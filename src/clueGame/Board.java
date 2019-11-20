@@ -31,6 +31,7 @@ public class Board extends JPanel implements MouseListener {
 	private int playerCounter = 0;
 	private int X;
 	private int Y;
+	private boolean playerTurnOver;
 	public final static int MAX_BOARD_SIZE = 50;
 	private final static int DIM_X = 30; // Represents the width of each cell
 	private final static int DIM_Y = 30; // Represents the height of each cell
@@ -57,6 +58,7 @@ public class Board extends JPanel implements MouseListener {
 		this.my_solution =  new Solution();
 		this.my_players = new ArrayList<Player>();
 		this.my_deck = Decks.getInstance();
+		this.playerTurnOver = false;
 		addMouseListener(this);
 	}
 	
@@ -72,9 +74,7 @@ public class Board extends JPanel implements MouseListener {
 		}
 		
 		// Draws the human player's targets
-		if (playerCounter == 0) {
-			my_players.get(playerCounter).drawTargets(g, targets, DIM_X, DIM_Y);
-		}
+		if (playerCounter == 0) my_players.get(playerCounter).drawTargets(g, targets, DIM_X, DIM_Y);
 		
 		// Draws each player
 		for (Player player : my_players) player.draw(g, DIM_X, DIM_Y);
@@ -391,18 +391,23 @@ public class Board extends JPanel implements MouseListener {
 	}
 	
 	// Calls the functions necessary for a player's turn to happen
-	public boolean turn(int i) {
+	public boolean turn(int i, boolean stillPlayerTurn) {
 		playerCounter = i;
-		dieRoll = my_players.get(playerCounter).rollDie();
-		calcTargets(my_players.get(playerCounter).getRow(), my_players.get(playerCounter).getColumn(), dieRoll);
 
 		// If the player is a human, prevent the turn from advancing unless they choose a target
 		if (playerCounter == 0) {
-			my_players.get(playerCounter).makeMove(targets);
-			
+			// If next player has been pressed but it's still the player's turn, don't update anything
+			if (!stillPlayerTurn) {
+				dieRoll = my_players.get(playerCounter).rollDie();
+				calcTargets(my_players.get(playerCounter).getRow(), my_players.get(playerCounter).getColumn(), dieRoll);
+			}
+			return playerTurnOver;
 		}
-		my_players.get(playerCounter).makeMove(targets);
 		
+		playerTurnOver = false;
+		dieRoll = my_players.get(playerCounter).rollDie();
+		calcTargets(my_players.get(playerCounter).getRow(), my_players.get(playerCounter).getColumn(), dieRoll);
+		my_players.get(playerCounter).makeMove(targets);
 		return true;
 	}
 	
@@ -416,20 +421,30 @@ public class Board extends JPanel implements MouseListener {
 			Y = e.getY();
 			Y /= DIM_Y;
 			boolean targetTest = false;
+			BoardCell destination = new BoardCell();
 			
 			// Causes error window to appear if the player chooses an invalid target
 			for (BoardCell target : targets) {
 				if (target.getRow() == Y && target.getColumn() == X) {
 					targetTest = true;
+					destination = target;
 					break;
 				}
 			}
+			// If the player chooses a space that isn't a valid target, display this splash window
 			if (!targetTest) {
 				JFrame window = new JFrame();
 				window.setPreferredSize(new Dimension(200, 525));
 				JOptionPane splash = new JOptionPane();
-				JOptionPane.showMessageDialog(window, "Please choose a valid space to move to!", "Invalid Space", JOptionPane.INFORMATION_MESSAGE);
+				JOptionPane.showMessageDialog(window, "Please choose a valid space to move to!", 
+						"Invalid Space", JOptionPane.INFORMATION_MESSAGE);
 				splash.setVisible(true);
+			}
+			// Otherwise, advance the turn like normal
+			else {
+				my_players.get(0).setRow(destination.getRow());
+				my_players.get(0).setColumn(destination.getColumn());
+				playerTurnOver = true;
 			}
 		}
 		repaint();

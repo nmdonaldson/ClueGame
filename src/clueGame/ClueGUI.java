@@ -1,5 +1,7 @@
 package clueGame;
 
+import java.awt.BorderLayout;
+
 /**
  * 
  * @author Nolan Donaldson, Chase Patterson
@@ -12,7 +14,10 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 import javax.swing.JButton;
+import javax.swing.JCheckBox;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
 import javax.swing.border.EtchedBorder;
@@ -23,11 +28,13 @@ public class ClueGUI extends JPanel {
 	private JButton makeAccusation;
 	private Board board = Board.getInstance();
 	private int playerCounter = 0;
+	private int messageSuppressor = 0;
+	private boolean stillPlayerTurn = false;
 	
 	// Constructor. Adds each panel to the window 
 	public ClueGUI() {
 		// Create a layout with 2 rows
-		setLayout(new GridLayout(2,3));
+		setLayout(new GridLayout(3,3));
 		add(displayTurn());
 		add(playerMove());
 		add(makeAccusation());
@@ -35,6 +42,7 @@ public class ClueGUI extends JPanel {
 		add(displayGuess());
 		add(displayGuessResult());
 	}
+
 	
 	// Creates die roll panel
 	private JPanel rollDie(){
@@ -119,6 +127,21 @@ public class ClueGUI extends JPanel {
 		return panel;
 	}
 	
+	// Removes every panel, updates them, then redraws them
+	// credit: https://stackoverflow.com/questions/2501861/how-can-i-remove-a-jpanel-from-a-jframe
+	private void update() {
+    	removeAll();
+		setLayout(new GridLayout(2,3));
+		add(displayTurn());
+		add(playerMove());
+		add(makeAccusation());
+		add(rollDie());
+		add(displayGuess());
+		add(displayGuessResult());
+    	validate();
+    	repaint();
+	}
+	
 	// Subclass the GUI uses to get allow the nextPlayer and accusation buttons to work
 	private class ButtonListener implements ActionListener {
 		@Override
@@ -126,36 +149,35 @@ public class ClueGUI extends JPanel {
 			// Keeps the playerCounter in range
 			playerCounter %= board.getMy_players().size();
 	        if (e.getSource() == nextPlayer) {
-	        	if (board.turn(playerCounter)) {
-	        		
+	        	// If the player's turn hasn't ended, make this button display an error window
+        		boolean playerTurnOver = board.turn(playerCounter, stillPlayerTurn);
+	        	update();
+	        	if (playerCounter == 0) {
+	        		stillPlayerTurn = true;
+		        	if (!playerTurnOver && messageSuppressor != 0) {
+						JFrame window = new JFrame();
+						window.setPreferredSize(new Dimension(200, 525));
+						JOptionPane splash = new JOptionPane();
+						JOptionPane.showMessageDialog(window, "Please finish your turn!", "Unfinished Turn", JOptionPane.INFORMATION_MESSAGE);
+						splash.setVisible(true);
+		        	}
+		        	messageSuppressor++;
+		        	// If it is, update the GUI and do the next turn (to avoid having to hit next player twice)
+		        	if (playerTurnOver) {
+			        	stillPlayerTurn = false;
+			        	messageSuppressor = 0;
+			        	playerCounter++;
+			        	board.turn(playerCounter, playerTurnOver);
+			        	update();
+		        	}
+		        	else return;
 	        	}
-	        	// Removes every panel, updates them, then redraws them
-	        	// credit: https://stackoverflow.com/questions/2501861/how-can-i-remove-a-jpanel-from-a-jframe
-	        	removeAll();
-	    		setLayout(new GridLayout(2,3));
-	    		add(displayTurn());
-	    		add(playerMove());
-	    		add(makeAccusation());
-	    		add(rollDie());
-	    		add(displayGuess());
-	    		add(displayGuessResult());
-	        	validate();
-	        	repaint();
+	        	// If it's not the player's turn, simply update the playerCounter
+	        	messageSuppressor = 0;
 	        	playerCounter++;
 	        }
 	        else if (e.getSource() == makeAccusation) {
-	        	// Removes every panel, updates them, then redraws them
-	        	// credit: https://stackoverflow.com/questions/2501861/how-can-i-remove-a-jpanel-from-a-jframe
-	        	removeAll();
-	    		setLayout(new GridLayout(2,3));
-	    		add(displayTurn());
-	    		add(playerMove());
-	    		add(makeAccusation());
-	    		add(rollDie());
-	    		add(displayGuess());
-	    		add(displayGuessResult());
-	        	validate();
-	        	repaint();
+	        	update();
 	        }
 	    }
 	}
