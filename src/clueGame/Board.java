@@ -44,7 +44,9 @@ public class Board extends JPanel implements MouseListener {
 	private String roomConfigFile;
 	private ArrayList<Player> my_players;
 	private Solution my_solution;
+	private Solution currentGuess;
 	private Decks my_deck;
+	private Card guessResponse;
 	private static Board instance = new Board();
 
 	// Constructor, private to ensure only one is created
@@ -59,9 +61,12 @@ public class Board extends JPanel implements MouseListener {
 		this.my_players = new ArrayList<Player>();
 		this.my_deck = Decks.getInstance();
 		this.playerTurnOver = false;
+		this.currentGuess = new Solution();
+		this.guessResponse = new Card();
 		addMouseListener(this);
 	}
 	
+
 	// Draws the board and its components
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -407,7 +412,8 @@ public class Board extends JPanel implements MouseListener {
 		playerTurnOver = false;
 		dieRoll = my_players.get(playerCounter).rollDie();
 		calcTargets(my_players.get(playerCounter).getRow(), my_players.get(playerCounter).getColumn(), dieRoll);
-		my_players.get(playerCounter).makeMove(targets);
+		guessResponse = my_players.get(playerCounter).makeMove(targets);
+		
 		return true;
 	}
 	
@@ -505,6 +511,19 @@ public class Board extends JPanel implements MouseListener {
 	public void setMy_players(ArrayList<Player> my_players) {
 		this.my_players = my_players;
 	}
+	
+	public void setCurrentGuess(Solution currentGuess) {
+		this.currentGuess = currentGuess;
+	}
+
+	public Solution getCurrentGuess() {
+		return currentGuess;
+	}
+
+	public Card getGuessResponse() {
+		return guessResponse;
+	}
+
 
 	// Unimplemented mouse listener methods
 	@Override

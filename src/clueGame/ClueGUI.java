@@ -27,6 +27,7 @@ public class ClueGUI extends JPanel {
 	private JButton nextPlayer;
 	private JButton makeAccusation;
 	private Board board = Board.getInstance();
+	private Card guessResult;
 	private int playerCounter = 0;
 	private int messageSuppressor = 0;
 	private boolean stillPlayerTurn = false;
@@ -104,6 +105,14 @@ public class ClueGUI extends JPanel {
 		panel.setLayout(new GridLayout(2,2));
 		JLabel nameLabel = new JLabel("The Guess");
 		JTextField dispGuess = new JTextField();
+		
+		// If the guess made isn't nothing, then display it
+		if (board.getCurrentGuess().person != null && board.getCurrentGuess().room != null
+				&& board.getCurrentGuess().weapon != null) {
+			dispGuess.setText(board.getCurrentGuess().person + " "
+					+ board.getCurrentGuess().room + " " + board.getCurrentGuess().weapon);
+		}
+		
 		dispGuess.setEditable(false);
 		panel.add(nameLabel);
 		panel.add(dispGuess);
@@ -119,6 +128,12 @@ public class ClueGUI extends JPanel {
 		panel.setLayout(new GridLayout(2,2));
 		JLabel nameLabel = new JLabel("Response");
 		JTextField dispGuess = new JTextField();
+		
+		// Display the guess response (assuming there is one)
+		if (board.getGuessResponse() != null) dispGuess.setText(board.getGuessResponse().getCardName());
+		else dispGuess.setText("");
+	
+		
 		dispGuess.setEditable(false);
 		panel.add(nameLabel);
 		panel.add(dispGuess);

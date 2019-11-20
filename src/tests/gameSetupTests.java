@@ -111,7 +111,7 @@ public class gameSetupTests {
 	
 	@Test
 	// Tests that the cards are being dealt fairly 
-	public void AtestDealing() {
+	public void ZtestDealing() {
 		deck.dealCards();
 		ArrayList<Card> roomCards = deck.getRoomDeck();
 		ArrayList<Card> weaponCards = deck.getWeaponDeck();

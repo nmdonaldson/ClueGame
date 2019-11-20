@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.util.ArrayList;
 import java.util.Set;
+
+import clueGame.Card.CardType;
+
 import java.util.Random;
 
 /**
@@ -80,7 +83,8 @@ public class ComputerPlayer extends Player {
 		int col = getColumn();
 		String place = "Error";
 		// Gets an instance of the board
-		if(Board.getInstance().getCellAt(row, col).isRoom()) {
+		if(Board.getInstance().getCellAt(row, col).isRoom() 
+				|| Board.getInstance().getCellAt(row, col).isDoorway()) {
 			char room = Board.getInstance().getCellAt(row, col).getInitial();
 			place = Board.getInstance().getLegend().get(room); 
 		}
@@ -93,10 +97,33 @@ public class ComputerPlayer extends Player {
 	
 	// Picks a target to move to and moves to it, also handles suggestions and accusations
 	@Override
-	public void makeMove(Set<BoardCell> targs) {
+	public Card makeMove(Set<BoardCell> targs) {
 		BoardCell pick = pickLocation(targs);
 		super.setRow(pick.getRow());
 		super.setColumn(pick.getColumn());
-		// TODO: For next lab, handle suggestions and accusations here
+		
+		// If the computer player moves into a room, they'll make a suggestion
+		if (pick.isRoom() || pick.isDoorway()) {
+			Random rand = new Random();
+			int randomPlayer = rand.nextInt(Board.getInstance().getMy_players().size());
+			
+			// Choose a random weapon from the cards people are holding
+			ArrayList<Card> temp = new ArrayList<Card>();
+			while (true) {
+				int randomWeapon = rand.nextInt(Board.getInstance().getMy_players().size());
+				temp = Board.getInstance().getMy_players().get(randomWeapon).getCards();
+				// Once they find a valid card setup, they make a suggestion which is then disproven
+				for (Card card : temp) {
+					if (card.type == Card.CardType.WEAPON) {
+						Solution guess = createSuggestion(
+								Board.getInstance().getMy_players().get(randomPlayer).getName(),
+								card.getCardName());
+						Board.getInstance().setCurrentGuess(guess);
+						return Board.getInstance().handleSuggestion(guess, this);
+					}
+				}
+			}
+		}
+		return null;
 	}
 }

@@ -76,8 +76,6 @@ public class Player extends JPanel {
 		return color;
 	}
 	
-
-	
 	// Rolls the dice, returns value of the dice roll
 	public int rollDie() {
 		Random rand = new Random();
@@ -85,10 +83,13 @@ public class Player extends JPanel {
 	}
 	
 	// Chooses where to move to. Exists to be overwritten
-	public void makeMove(Set<BoardCell> targs) {}
+	public Card makeMove(Set<BoardCell> targs) {
+		return null;
+	}
 	
 	// Draws the targets for the player. Exists to be overwritten
 	public void drawTargets(Graphics g, Set<BoardCell> targs, int DIM_X, int DIM_Y) {}
+	
 	
 	// Accessors
 	public String getName() {
