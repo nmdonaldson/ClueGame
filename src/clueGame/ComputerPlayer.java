@@ -1,9 +1,15 @@
 package clueGame;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.Window;
 import java.util.ArrayList;
 import java.util.Set;
+
+import javax.swing.JFrame;
+import javax.swing.JOptionPane;
+import javax.swing.SwingUtilities;
 
 import clueGame.Card.CardType;
 
@@ -17,6 +23,7 @@ import java.util.Random;
 
 public class ComputerPlayer extends Player {
 	private BoardCell previousRoom;
+	private Solution winCondition;
 	
 	public ComputerPlayer(String name, Color color, int row, int col, ArrayList<Card> cards) {
 		super.setPlayerName(name);
@@ -24,6 +31,7 @@ public class ComputerPlayer extends Player {
 		super.setRow(row);
 		super.setColumn(col);
 		super.setCards(cards);
+		this.winCondition = new Solution();
 		this.previousRoom = new BoardCell();
 	}
 	public ComputerPlayer(String name, String color, int row, int col, ArrayList<Card> cards) {
@@ -32,6 +40,7 @@ public class ComputerPlayer extends Player {
 		super.setRow(row);
 		super.setColumn(col);
 		super.setCards(cards);
+		this.winCondition = new Solution();
 		this.previousRoom = new BoardCell();
 	}
 	
@@ -68,7 +77,7 @@ public class ComputerPlayer extends Player {
 			place = Board.getInstance().getLegend().get(room); 
 		}
 		// Checks the accusation being made vs. the solution
-		System.out.println("The suggestion made was " + person + " in the " + place + " with the " + wep);
+		//System.out.println("The suggestion made was " + person + " in the " + place + " with the " + wep);
 		String real_person = Board.getInstance().getSolution().person;
 		String real_place = Board.getInstance().getSolution().room;
 		String real_weapon = Board.getInstance().getSolution().weapon;
@@ -98,6 +107,24 @@ public class ComputerPlayer extends Player {
 	// Picks a target to move to and moves to it, also handles suggestions and accusations
 	@Override
 	public Card makeMove(Set<BoardCell> targs) {
+		// If the previous suggestion couldn't be disproven, make this accusation
+		if (winCondition.person != null && winCondition.room != null && winCondition.weapon != null) {
+			// If the accusation is true, then the player wins
+			if (makeAccusation(winCondition.person, winCondition.weapon)) {
+				JFrame window = new JFrame();
+				window.setPreferredSize(new Dimension(200, 525));
+				JOptionPane splash = new JOptionPane();
+				JOptionPane.showMessageDialog(window, super.getName() + " just won! The perpetrator was "
+						+ winCondition.person + " using the " 
+						+ winCondition.weapon + " in the "
+						+ winCondition.room + ".", 
+						"Game Over", JOptionPane.INFORMATION_MESSAGE);
+				splash.setVisible(false);
+				// Ends the program
+				System.exit(0);
+			}
+		}
+		
 		BoardCell pick = pickLocation(targs);
 		super.setRow(pick.getRow());
 		super.setColumn(pick.getColumn());
@@ -119,7 +146,10 @@ public class ComputerPlayer extends Player {
 								Board.getInstance().getMy_players().get(randomPlayer).getName(),
 								card.getCardName());
 						Board.getInstance().setCurrentGuess(guess);
-						return Board.getInstance().handleSuggestion(guess, this);
+						Card disproven = Board.getInstance().handleSuggestion(guess, this);
+						// If the guess can't be disproven, make that accusation next turn
+						if (disproven == null) winCondition = guess;
+						return disproven;
 					}
 				}
 			}

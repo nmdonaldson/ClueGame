@@ -47,6 +47,7 @@ public class Board extends JPanel implements MouseListener {
 	private Solution currentGuess;
 	private Decks my_deck;
 	private Card guessResponse;
+	private Solution unproven;
 	private static Board instance = new Board();
 
 	// Constructor, private to ensure only one is created
@@ -95,6 +96,14 @@ public class Board extends JPanel implements MouseListener {
 	public Card handleSuggestion(Solution suggestion, Player player) {
 		boolean validAns = true;
 		Card answer = new Card();
+		
+		// Move the suggested player into the room of the accuser
+		for (Player participant : my_players) {
+			if (suggestion.person == participant.getName()) {
+				participant.setRow(player.getRow());
+				participant.setColumn(player.getColumn());
+			}
+		}
 		// Searches every player's deck for a card that can disprove the suggestion
 		for (int i = my_players.size() - 1; i > -1; i--) {
 			// First player is the human player
@@ -127,6 +136,7 @@ public class Board extends JPanel implements MouseListener {
 			}
 		}
 	}
+	
 	
 	public void cellCheck(Set<BoardCell> tempSet, char boardChar, int i, int j) {
 		BoardCell current = grid[i][j];

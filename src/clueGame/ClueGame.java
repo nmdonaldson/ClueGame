@@ -31,7 +31,7 @@ public class ClueGame extends JFrame {
 
 	// Constructor, initializes GUI elements and the Board
 	public ClueGame() {
-		setSize(867, 965);
+		setSize(867, 957);
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		board = Board.getInstance();
 		board.setConfigFiles("Board.csv", "ClueRooms.txt");
@@ -72,6 +72,8 @@ public class ClueGame extends JFrame {
 				if (tempBox.isSelected()) {
 					notesGUI.setVisible(true);
 				} else {
+					setSize(867, 875);
+					repaint();
 					notesGUI.setVisible(false);
 				}
 			}
