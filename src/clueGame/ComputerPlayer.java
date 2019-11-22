@@ -22,7 +22,7 @@ import java.util.Random;
  */
 
 public class ComputerPlayer extends Player {
-	private BoardCell previousRoom;
+	private String previousRoom;
 	private Solution winCondition;
 	
 	public ComputerPlayer(String name, Color color, int row, int col, ArrayList<Card> cards) {
@@ -32,7 +32,7 @@ public class ComputerPlayer extends Player {
 		super.setColumn(col);
 		super.setCards(cards);
 		this.winCondition = new Solution();
-		this.previousRoom = new BoardCell();
+		this.previousRoom = "";
 	}
 	public ComputerPlayer(String name, String color, int row, int col, ArrayList<Card> cards) {
 		super.setPlayerName(name);
@@ -41,7 +41,7 @@ public class ComputerPlayer extends Player {
 		super.setColumn(col);
 		super.setCards(cards);
 		this.winCondition = new Solution();
-		this.previousRoom = new BoardCell();
+		this.previousRoom = "";
 	}
 	
 	// Chooses location to move to within targets from the board
@@ -49,8 +49,8 @@ public class ComputerPlayer extends Player {
 		// Checks the targets array for rooms
 		for (BoardCell target: targets) {
 			// If there is a room in the targets list and it isn't the previously visited room, choose it
-			if (target.isDoorway() && target != previousRoom) {
-				previousRoom = target;
+			if (target.isDoorway() && target.getName() != previousRoom) {
+				previousRoom = target.getName();
 				return target;
 			}
 		}

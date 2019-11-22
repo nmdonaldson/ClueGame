@@ -83,9 +83,7 @@ public class Player extends JPanel {
 	}
 	
 	// Chooses where to move to. Exists to be overwritten
-	public Card makeMove(Set<BoardCell> targs) {
-		return null;
-	}
+	public Card makeMove(Set<BoardCell> targs) {return null;}
 	
 	// Draws the targets for the player. Exists to be overwritten
 	public void drawTargets(Graphics g, Set<BoardCell> targs, int DIM_X, int DIM_Y) {}

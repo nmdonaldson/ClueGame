@@ -26,8 +26,12 @@ public class HumanPlayer extends Player {
 	@Override
 	public void drawTargets(Graphics g, Set<BoardCell> targs, int DIM_X, int DIM_Y) {
 		for (BoardCell target: targs) {
+			// Fills in the tile as green
 			g.setColor(Color.GREEN);
 			g.fillRect(target.getColumn()*DIM_X, target.getRow()*DIM_Y, DIM_X, DIM_Y);
+			// Highlights the tile's border as red
+			g.setColor(Color.RED);
+			g.drawRect(target.getColumn()*DIM_X, target.getRow()*DIM_Y, DIM_X, DIM_Y);
 		}
 	}
 }

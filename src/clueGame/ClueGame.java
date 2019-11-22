@@ -36,7 +36,7 @@ public class ClueGame extends JFrame {
 		board = Board.getInstance();
 		board.setConfigFiles("Board.csv", "ClueRooms.txt");
 		board.initialize();
-		ClueGUI gui = new ClueGUI();
+		ClueGUI gui = ClueGUI.getInstance();
 		gui.add(checkBox());
 
 		// Gets the human player object (for their cards)
@@ -72,8 +72,6 @@ public class ClueGame extends JFrame {
 				if (tempBox.isSelected()) {
 					notesGUI.setVisible(true);
 				} else {
-					setSize(867, 875);
-					repaint();
 					notesGUI.setVisible(false);
 				}
 			}

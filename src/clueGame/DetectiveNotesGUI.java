@@ -18,7 +18,7 @@ import javax.swing.border.EtchedBorder;
 import javax.swing.border.TitledBorder;
 import java.util.Random;
 
-public class DetectiveNotesGUI  extends JDialog{
+public class DetectiveNotesGUI extends JDialog {
 	
 	public DetectiveNotesGUI(JFrame A) {
 		// Create a layout with 2 rows

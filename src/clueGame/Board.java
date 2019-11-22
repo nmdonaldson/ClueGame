@@ -2,13 +2,21 @@ package clueGame;
 
 import java.util.Set;
 
+import javax.swing.JButton;
+import javax.swing.JComboBox;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
+import javax.swing.JTextField;
 
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.Graphics;
+import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.util.ArrayList;
@@ -40,6 +48,7 @@ public class Board extends JPanel implements MouseListener {
 	private Set<BoardCell> targets;
 	private Map<Character, String> legend;
 	private Set<String> types;
+	private ArrayList<String> weapons;
 	private String boardConfigFile;
 	private String roomConfigFile;
 	private ArrayList<Player> my_players;
@@ -47,7 +56,8 @@ public class Board extends JPanel implements MouseListener {
 	private Solution currentGuess;
 	private Decks my_deck;
 	private Card guessResponse;
-	private Solution unproven;
+	private JButton suggSubmit;
+	private JButton suggCancel;
 	private static Board instance = new Board();
 
 	// Constructor, private to ensure only one is created
@@ -64,10 +74,12 @@ public class Board extends JPanel implements MouseListener {
 		this.playerTurnOver = false;
 		this.currentGuess = new Solution();
 		this.guessResponse = new Card();
+		this.suggSubmit = new JButton("Submit");
+		this.suggCancel = new JButton("Cancel");
+		this.weapons = new ArrayList<String>();
 		addMouseListener(this);
 	}
 	
-
 	// Draws the board and its components
 	public void paintComponent(Graphics g) {
 		super.paintComponent(g);
@@ -89,7 +101,6 @@ public class Board extends JPanel implements MouseListener {
 
 	// Checks the accusation's accuracy
 	public boolean checkAccusation(Solution accusation) { return accusation.equals(my_solution);}
-	
 	
 	// Checks a suggestion for any matches between the players
 	// Player param is the player making the accusation, suggestion is their suggestion
@@ -137,7 +148,7 @@ public class Board extends JPanel implements MouseListener {
 		}
 	}
 	
-	
+	// Checks each cell to see if it can be added to the adjacency list
 	public void cellCheck(Set<BoardCell> tempSet, char boardChar, int i, int j) {
 		BoardCell current = grid[i][j];
 		if (boardChar == 'W') {
@@ -373,6 +384,8 @@ public class Board extends JPanel implements MouseListener {
 	//makes the solution to the game
 	public void createSolution() {
 		my_deck.initialize();
+		// Creates a record of the weapon cards (since they're not stored anywhere else)
+		for (Card weaponCard : my_deck.getWeaponDeck()) {weapons.add(weaponCard.getCardName());}
 		my_deck.shuffle(my_deck.getWeaponDeck());
 		my_deck.shuffle(my_deck.getPlayerDeck());
 		my_deck.shuffle(my_deck.getRoomDeck());
@@ -412,6 +425,8 @@ public class Board extends JPanel implements MouseListener {
 		// If the player is a human, prevent the turn from advancing unless they choose a target
 		if (playerCounter == 0) {
 			// If next player has been pressed but it's still the player's turn, don't update anything
+			// This keeps the next player button from re-rolling the die if it's pressed more than
+			// once per turn
 			if (!stillPlayerTurn) {
 				dieRoll = my_players.get(playerCounter).rollDie();
 				calcTargets(my_players.get(playerCounter).getRow(), my_players.get(playerCounter).getColumn(), dieRoll);
@@ -431,7 +446,7 @@ public class Board extends JPanel implements MouseListener {
 	@Override
 	public void mouseClicked(MouseEvent e) {
 		// If it's the human player's turn, check where they click on the board
-		if (playerCounter == 0) {
+		if (playerCounter == 0 && !playerTurnOver) {
 			X = e.getX();
 			X /= DIM_X;
 			Y = e.getY();
@@ -447,6 +462,7 @@ public class Board extends JPanel implements MouseListener {
 					break;
 				}
 			}
+			
 			// If the player chooses a space that isn't a valid target, display this splash window
 			if (!targetTest) {
 				JFrame window = new JFrame();
@@ -460,14 +476,104 @@ public class Board extends JPanel implements MouseListener {
 			else {
 				my_players.get(0).setRow(destination.getRow());
 				my_players.get(0).setColumn(destination.getColumn());
+				// If the destination of the human player is a room, the suggestion window appears
+				if (destination.isRoom() || destination.isDoorway()) suggestionWindow();
 				playerTurnOver = true;
 			}
 		}
 		repaint();
 	}
+	
+	// Creates a modal dialog that allows the human player to make a suggestion/accusation
+	public void suggestionWindow() {
+		// Creates new dialog box using the main JFrame as a base
+		JDialog suggFrame = new JDialog((JFrame)this.getParent().getParent().getParent().getParent(), "Make a Guess", true);
+		suggFrame.setLayout(new GridLayout(4, 2));
+		suggFrame.setPreferredSize(new Dimension(250, 250));
+		
+		JComboBox<String> roomChoice = null;
+		
+		// Adds the "Your room" label and the box displaying where you are
 
+		suggFrame.add(new JLabel("Your Room"));
+		JTextField roomDisp = new JTextField(legend.get(getCellAt(my_players.get(0).getRow(), 
+				my_players.get(0).getColumn()).getInitial()));
+		roomDisp.setEditable(false);
+		suggFrame.add(roomDisp);
+
+		// Fills in a new array of all the player names for the combo box
+		String[] displayers = new String[my_players.size()];
+		for (int i = 0; i < my_players.size(); i++) {displayers[i] = my_players.get(i).getName();}
+		
+		// Creates a new label and combo box to choose a player for the suggestion
+		suggFrame.add(new JLabel("Person"));
+		JComboBox<String> playerChoice = new JComboBox<String>(displayers);
+		suggFrame.add(playerChoice);
+		
+		// Adds a new label and combo box to choose a weapon for the suggestion
+		String[] disWeapons = new String[weapons.size()];
+		disWeapons = weapons.toArray(disWeapons);
+		suggFrame.add(new JLabel("Weapon"));
+		JComboBox<String> weaponChoice = new JComboBox<String>(disWeapons);
+		suggFrame.add(weaponChoice);
+		
+		ButtonListener buttons = null;
+		
+		// Adds the ability for the buttons to work
+		buttons = new ButtonListener(playerChoice, weaponChoice, suggFrame);
+
+		// Adds everything to the dialog window
+		suggSubmit.addActionListener(buttons);
+		suggCancel.addActionListener(buttons);
+		suggFrame.add(suggSubmit);
+		suggFrame.add(suggCancel);
+		suggFrame.pack();
+		suggFrame.setVisible(true);
+		suggFrame.setModal(true);
+	}
+
+	// Handles the actions of the combo boxes and buttons after making a suggestion
+	private class ButtonListener implements ActionListener {
+		private JComboBox<String> playerChoice;
+		private JComboBox<String> weaponChoice;
+		private JDialog currentWindow;
+		
+		// Constructor
+		public ButtonListener(JComboBox<String> pChoice, JComboBox<String> wChoice,
+				JDialog currentWindow) {
+			this.playerChoice = pChoice;
+			this.weaponChoice = wChoice;
+			this.currentWindow = currentWindow;
+		}
+		
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			// If the human player presses "Submit", read their inputs and handle
+			// the corresponding suggestion, then close the window
+			if (e.getSource() == suggSubmit) {
+				Solution guess = new Solution();
+				
+				// Handle the human player's suggestion
+				guess.person = (String) playerChoice.getSelectedItem();
+				guess.weapon = (String) weaponChoice.getSelectedItem();
+				guess.room = legend.get(getCellAt(my_players.get(0).getRow(), 
+						my_players.get(0).getColumn()).getInitial());
+				currentGuess = guess;
+				guessResponse = handleSuggestion(guess, my_players.get(0));
+				
+				// Updates the GUI to reflect the suggestion
+				ClueGUI.getInstance().update();
+				currentWindow.dispose();
+			}
+			// If the player presses "Cancel", simply close the window
+			else if (e.getSource() == suggCancel) {
+				currentWindow.dispose();
+			}
+		}
+	}
+	
 	// Instance method, makes sure there is only one instance of board
-	// Also provides a global access point to the board
+	// Also provides a global access point to it
 	public static Board getInstance() {return instance;}
 	
 	// Returns list of targets
@@ -525,6 +631,14 @@ public class Board extends JPanel implements MouseListener {
 	public void setCurrentGuess(Solution currentGuess) {
 		this.currentGuess = currentGuess;
 	}
+	
+	public void setPlayerTurnOver(boolean playerTurnOver) {
+		this.playerTurnOver = playerTurnOver;
+	}
+
+	public boolean isPlayerTurnOver() {
+		return playerTurnOver;
+	}
 
 	public Solution getCurrentGuess() {
 		return currentGuess;
@@ -532,6 +646,10 @@ public class Board extends JPanel implements MouseListener {
 
 	public Card getGuessResponse() {
 		return guessResponse;
+	}
+	
+	public ArrayList<String> getWeapons() {
+		return weapons;
 	}
 
 
