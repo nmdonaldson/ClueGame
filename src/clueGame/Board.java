@@ -100,7 +100,10 @@ public class Board extends JPanel implements MouseListener {
 	}
 
 	// Checks the accusation's accuracy
-	public boolean checkAccusation(Solution accusation) { return accusation.equals(my_solution);}
+	public boolean checkAccusation(Solution accusation) {
+		// compareTo() was used in place of other methods as they didn't work
+		return accusation.person == my_solution.person && accusation.weapon == my_solution.weapon && accusation.room.compareTo(my_solution.room) == 0;
+	}
 	
 	// Checks a suggestion for any matches between the players
 	// Player param is the player making the accusation, suggestion is their suggestion
@@ -390,8 +393,11 @@ public class Board extends JPanel implements MouseListener {
 		my_deck.shuffle(my_deck.getPlayerDeck());
 		my_deck.shuffle(my_deck.getRoomDeck());
 		my_solution.weapon = my_deck.getWeaponDeck().get(0).getCardName();
+		System.out.println(my_solution.weapon);
 		my_solution.person = my_deck.getPlayerDeck().get(0).getCardName();
+		System.out.println(my_solution.person);
 		my_solution.room = my_deck.getRoomDeck().get(0).getCardName();
+		System.out.println(my_solution.room);
 	}	
 	
 	// Gets the players loaded in from the deck class

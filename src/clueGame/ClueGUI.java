@@ -305,6 +305,7 @@ public class ClueGUI extends JPanel {
 					JOptionPane.showMessageDialog(window, "Congratulations! You guessed correctly!", 
 							"Game Win", JOptionPane.INFORMATION_MESSAGE);
 					splash.setVisible(true);
+					System.exit(0);
 				}
 				// Otherwise, their accusation is refuted
 				else {
